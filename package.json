@@ -8,8 +8,18 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
+    "format:ci": "prettier . --check --ignore-unknown",
     "format:fix": "prettier --write .",
     "prepare": "husky && chmod ug+x .husky/*"
+  },
+  "lint-staged": {
+    "**/*.{js,jsx,ts,tsx}": [
+      "eslint . --max-warnings=0",
+      "prettier --write --ignore-unknown"
+    ],
+    "*.{html,css,scss,json}": [
+      "prettier --write --ignore-unknown"
+    ]
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.11",
