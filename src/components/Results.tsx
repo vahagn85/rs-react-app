@@ -6,13 +6,15 @@ import Loading from './Loading';
 interface ResultsProps {
   results: Result[];
   loading?: boolean;
+  error?: string | null;
 }
 
 export default class Results extends Component<ResultsProps> {
   renderContent() {
-    const { loading, results } = this.props;
+    const { loading, results, error } = this.props;
 
     if (loading) return <Loading />;
+    if (error) return <p className="text-red-500">{error}</p>;
     if (results.length === 0) {
       return <p className="text-gray-500">No results found</p>;
     }

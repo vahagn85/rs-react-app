@@ -11,7 +11,7 @@ export default class CardList extends Component<CardListProps> {
     return (
       <ul className="w-full">
         {this.props.results.map((result) => (
-          <Card key={result.id} name={result.name} desc={result.desc} />
+          <Card key={result.name} name={result.name} desc={result.climate} />
         ))}
       </ul>
     );
