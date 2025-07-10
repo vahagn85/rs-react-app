@@ -9,7 +9,7 @@ interface CardListProps {
 export default class CardList extends Component<CardListProps> {
   render() {
     return (
-      <ul>
+      <ul className="w-full">
         {this.props.results.map((result) => (
           <Card key={result.id} name={result.name} desc={result.desc} />
         ))}

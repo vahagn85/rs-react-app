@@ -9,7 +9,7 @@ interface ResultsProps {
 export default class Results extends Component<ResultsProps> {
   render() {
     return (
-      <main>
+      <main className="w-full max-w-xl flex items-center justify-center p-4 min-h-40 mt-4 bg-white rounded-lg shadow-md">
         {this.props.results && this.props.results.length > 0 ? (
           <CardList results={this.props.results} />
         ) : (
