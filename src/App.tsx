@@ -26,7 +26,9 @@ class App extends Component<object, AppState> {
   fetchData = async () => {
     const { search } = this.state;
 
-    localStorage.setItem('search-swapi', search.trim());
+    if (search.trim()) {
+      localStorage.setItem('search-swapi', search.trim());
+    }
     this.setState({ loading: true, error: null });
 
     try {
@@ -35,7 +37,6 @@ class App extends Component<object, AppState> {
       });
       this.setState({ results: data.results || [] });
     } catch (error) {
-      console.error('Error fetching data:', error);
       this.setState({
         error: error instanceof Error ? error.message : 'Request failed',
       });
