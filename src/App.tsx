@@ -39,7 +39,7 @@ class App extends Component<object, AppState> {
           onSearch={this.handleSearch}
           onClick={this.fetchData}
         />
-        <Results results={this.state.results} />
+        <Results results={this.state.results} loading={this.state.loading} />
       </div>
     );
   }
