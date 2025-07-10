@@ -4,8 +4,7 @@ import Input from './Input';
 
 interface HeaderProps {
   search: string;
-  onSearch?: (search: any) => void;
-
+  onSearch?: (search: string) => void;
   onClick?: () => void;
 }
 

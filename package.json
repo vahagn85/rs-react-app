@@ -10,7 +10,7 @@
     "preview": "vite preview",
     "format:ci": "prettier . --check --ignore-unknown",
     "format:fix": "prettier --write .",
-    "prepare": "husky && chmod ug+x .husky/*"
+    "prepare": "husky"
   },
   "lint-staged": {
     "**/*.{js,jsx,ts,tsx}": [
