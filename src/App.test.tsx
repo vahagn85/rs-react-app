@@ -74,6 +74,7 @@ describe('App Component', () => {
   });
 
   it('should crashes when "Throw Error" button is clicked', async () => {
+    vi.spyOn(console, 'error').mockImplementation(() => {});
     const user = userEvent.setup();
 
     render(

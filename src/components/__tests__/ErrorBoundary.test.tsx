@@ -13,6 +13,7 @@ class CrashingComponent extends Component {
 
 describe('ErrorBoundary Component', () => {
   it('should render error message and a button when an error occurs', () => {
+    vi.spyOn(console, 'error').mockImplementation(() => {});
     render(
       <ErrorBoundary
         fallback={(resetError) => <ErrorFallback resetError={resetError} />}
@@ -20,7 +21,6 @@ describe('ErrorBoundary Component', () => {
         <CrashingComponent />
       </ErrorBoundary>
     );
-    screen.debug();
 
     const heading = screen.getByRole('heading');
     const button = screen.getByRole('button');
@@ -32,6 +32,7 @@ describe('ErrorBoundary Component', () => {
   });
 
   it('should re-render children after reset button click', async () => {
+    vi.spyOn(console, 'error').mockImplementation(() => {});
     const user = userEvent.setup();
 
     const { unmount } = render(
