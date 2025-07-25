@@ -1,86 +1,64 @@
-import { Component } from 'react';
+import { useReducer, useCallback, useEffect, useRef } from 'react';
 import Header from './components/Header';
 import Results from './components/Results';
-import type { ApiResponse, Result } from './types/result.types';
+import type { ApiResponse } from './types/result.types';
 import { apiService } from './services/api.service';
-import Button from './components/Button';
+import { appReducer, initialState } from './reducer/app.reducer';
 
-interface AppState {
-  search: string;
-  results: Result[];
-  loading: boolean;
-  error: string | null;
-  throwError: boolean;
-}
+const App = () => {
+  const initRender = useRef(true);
+  const [state, dispatch] = useReducer(appReducer, initialState);
 
-class App extends Component<object, AppState> {
-  state: AppState = {
-    search: '',
-    results: [],
-    loading: false,
-    error: null,
-    throwError: false,
+  const handleSearch = (search: string) => {
+    dispatch({ type: 'APP_SEARCH', payload: search });
   };
 
-  handleSearch = (search: string) => {
-    this.setState({ search });
-  };
-
-  fetchData = async () => {
-    const { search } = this.state;
-
-    if (search.trim()) {
-      localStorage.setItem('search-swapi', search.trim());
+  const fetchData = useCallback(async (searchValue: string) => {
+    if (searchValue.trim()) {
+      localStorage.setItem('search-swapi', searchValue.trim());
     }
-    this.setState({ loading: true, error: null });
-
+    dispatch({ type: 'APP_LOADING', payload: true });
+    dispatch({ type: 'APP_ERROR', payload: null });
     try {
       const data = await apiService.getData<ApiResponse>('/planets', {
-        search,
+        searchValue,
       });
-      this.setState({ results: data.results || [] });
+      dispatch({ type: 'APP_RESULTS', payload: data.results || [] });
     } catch (error) {
-      this.setState({
-        error: error instanceof Error ? error.message : 'Request failed',
+      dispatch({
+        type: 'APP_ERROR',
+        payload: error instanceof Error ? error.message : 'Request failed',
       });
     } finally {
-      this.setState({ loading: false });
+      dispatch({ type: 'APP_LOADING', payload: false });
     }
+  }, []);
+
+  useEffect(() => {
+    if (initRender.current) {
+      initRender.current = false;
+      fetchData(state.search);
+    }
+  }, [fetchData, state.search]);
+
+  const handleClick = () => {
+    fetchData(state.search);
   };
 
-  handleError = () => {
-    this.setState({ throwError: true });
-  };
-
-  componentDidMount(): void {
-    const savedSearch = localStorage.getItem('search-swapi') || '';
-    this.setState({ search: savedSearch }, this.fetchData);
-  }
-
-  render() {
-    if (this.state.throwError) {
-      throw new Error('Crash in render');
-    }
-    return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
-        <Header
-          search={this.state.search}
-          onSearch={this.handleSearch}
-          onClick={this.fetchData}
-        />
-        <Results
-          results={this.state.results}
-          loading={this.state.loading}
-          error={this.state.error}
-        />
-        <Button
-          variant="danger"
-          name="Throw Error"
-          onClick={this.handleError}
-        />
-      </div>
-    );
-  }
-}
+  return (
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
+      <Header
+        search={state.search}
+        onSearch={handleSearch}
+        onClick={handleClick}
+      />
+      <Results
+        results={state.results}
+        loading={state.loading}
+        error={state.error}
+      />
+    </div>
+  );
+};
 
 export default App;
