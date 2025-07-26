@@ -1,5 +1,5 @@
 import { useReducer, useCallback, useEffect, useRef } from 'react';
-import Header from './components/Header';
+import Search from './components/Search';
 import Results from './components/Results';
 import type { ApiResponse } from './types/result.types';
 import { apiService } from './services/api.service';
@@ -47,7 +47,7 @@ const App = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
-      <Header
+      <Search
         search={state.search}
         onSearch={handleSearch}
         onClick={handleClick}

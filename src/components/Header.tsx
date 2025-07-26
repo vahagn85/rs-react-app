@@ -1,21 +1,20 @@
-import Button from './Button';
-import Input from './Input';
+import { Link } from 'react-router';
+import Navigation from './Navigation';
 
-interface HeaderProps {
-  search: string;
-  onSearch?: (search: string) => void;
-  onClick?: () => void;
-}
-
-const Header = (props: HeaderProps) => {
-  const { search, onSearch, onClick } = props;
-
+function Header() {
   return (
-    <section className="w-full max-w-xl flex flex-wrap items-center justify-center p-4 gap-4 bg-white  rounded-lg shadow-md">
-      <Input value={search} onSearch={onSearch} />
-      <Button name="Search" onClick={onClick} />
-    </section>
+    <header className="bg-gray-800 text-white">
+      <div className="max-w-4xl flex items-center justify-between p-4 mx-auto">
+        <Link
+          to="/"
+          className="text-2xl font-black md:text-3xl text-[#FFE81F] uppercase "
+        >
+          Star Wars
+        </Link>
+        <Navigation />
+      </div>
+    </header>
   );
-};
+}
 
 export default Header;

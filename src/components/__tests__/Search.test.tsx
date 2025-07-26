@@ -1,10 +1,10 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import Header from '../Header';
+import Search from '../Search';
 
 describe('Header Component', () => {
   it('should render an input and a button', () => {
-    render(<Header search="Test" />);
+    render(<Search search="Test" />);
 
     const input = screen.getByRole('textbox');
     const button = screen.getByRole('button');
@@ -15,7 +15,7 @@ describe('Header Component', () => {
 
   it('should call onClick when clicking the button', async () => {
     const handleClick = vi.fn();
-    render(<Header search="" onClick={handleClick} />);
+    render(<Search search="" onClick={handleClick} />);
 
     const button = screen.getByRole('button');
 
@@ -27,7 +27,7 @@ describe('Header Component', () => {
 
   it('should call onSearch when user types', async () => {
     const handleSearch = vi.fn();
-    render(<Header search="" onSearch={handleSearch} />);
+    render(<Search search="" onSearch={handleSearch} />);
 
     const input = screen.getByRole('textbox');
 
