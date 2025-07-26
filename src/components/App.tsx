@@ -1,15 +1,12 @@
 import { useCallback, useEffect, useReducer, useRef } from 'react';
-import { useSearchParams } from 'react-router';
-import Results from '../components/Results';
-import Search from '../components/Search';
+import Results from './Results';
+import Search from './Search';
 import { appReducer, initialState } from '../reducer/app.reducer';
 import { apiService } from '../services/api.service';
 import type { ApiResponse } from '../types/result.types';
-function HomePage() {
+function App() {
   const initRender = useRef(true);
   const [state, dispatch] = useReducer(appReducer, initialState);
-  const [searchParams, setSearchParams] = useSearchParams();
-  const page = searchParams.get('page');
 
   const handleSearch = (search: string) => {
     dispatch({ type: 'APP_SEARCH', payload: search });
@@ -41,12 +38,6 @@ function HomePage() {
   };
 
   useEffect(() => {
-    if (!page) {
-      setSearchParams({ page: '1' });
-    }
-  }, [page, setSearchParams]);
-
-  useEffect(() => {
     if (initRender.current) {
       initRender.current = false;
       fetchData(state.search);
@@ -69,4 +60,4 @@ function HomePage() {
   );
 }
 
-export default HomePage;
+export default App;

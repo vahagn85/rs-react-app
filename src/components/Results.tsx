@@ -20,9 +20,9 @@ const Results = (props: ResultsProps) => {
   };
 
   return (
-    <main className="flex items-center justify-center p-4 min-h-40 mt-4 bg-white rounded-lg shadow-md">
+    <div className="flex items-center justify-center p-4 min-h-40 mt-4 bg-white rounded-lg shadow-md">
       {renderContent()}
-    </main>
+    </div>
   );
 };
 

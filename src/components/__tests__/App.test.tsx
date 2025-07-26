@@ -6,12 +6,12 @@ import {
 } from '../../test-utils/mockApi';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import HomePage from '../HomePage';
-import ErrorBoundary from '../../components/ErrorBoundary';
-import ErrorFallback from '../../components/ErrorFallback';
+import App from '../App';
+import ErrorBoundary from '../ErrorBoundary';
+import ErrorFallback from '../ErrorFallback';
 import { mockPlanets } from '../../test-utils/mockdata/planets';
 
-describe('Home Page', () => {
+describe('App Component', () => {
   beforeEach(() => {
     localStorage.clear();
   });
@@ -21,7 +21,7 @@ describe('Home Page', () => {
 
     render(
       <ErrorBoundary fallback={(reset) => <ErrorFallback resetError={reset} />}>
-        <HomePage />
+        <App />
       </ErrorBoundary>
     );
 
@@ -38,7 +38,7 @@ describe('Home Page', () => {
 
     render(
       <ErrorBoundary fallback={(reset) => <ErrorFallback resetError={reset} />}>
-        <HomePage />
+        <App />
       </ErrorBoundary>
     );
     await screen.findByRole('main');
@@ -51,7 +51,7 @@ describe('Home Page', () => {
 
     render(
       <ErrorBoundary fallback={(reset) => <ErrorFallback resetError={reset} />}>
-        <HomePage />
+        <App />
       </ErrorBoundary>
     );
 
@@ -61,7 +61,7 @@ describe('Home Page', () => {
 
   it('should render fetches data when click search button', async () => {
     const user = userEvent.setup();
-    render(<HomePage />);
+    render(<App />);
 
     const input = screen.getByPlaceholderText(/search/i);
     const searchBtn = screen.getByRole('button', { name: /search/i });
@@ -83,7 +83,7 @@ describe('Home Page', () => {
 
     render(
       <ErrorBoundary fallback={(reset) => <ErrorFallback resetError={reset} />}>
-        <HomePage />
+        <App />
       </ErrorBoundary>
     );
 
@@ -98,7 +98,7 @@ describe('Home Page', () => {
   it('should save value in localStorage after clicking Search', async () => {
     const user = userEvent.setup();
 
-    render(<HomePage />);
+    render(<App />);
 
     const input = screen.getByPlaceholderText(/search/i);
     const button = screen.getByRole('button', { name: /search/i });
