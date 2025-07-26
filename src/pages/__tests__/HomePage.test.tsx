@@ -3,15 +3,15 @@ import {
   mockErrorNotFoundOnce,
   mockGetDataOnce,
   mockGetSearchDataOnce,
-} from './test-utils/mockApi';
+} from '../../test-utils/mockApi';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import App from './App';
-import ErrorBoundary from './components/ErrorBoundary';
-import ErrorFallback from './components/ErrorFallback';
-import { mockPlanets } from './test-utils/mockdata/planets';
+import HomePage from '../HomePage';
+import ErrorBoundary from '../../components/ErrorBoundary';
+import ErrorFallback from '../../components/ErrorFallback';
+import { mockPlanets } from '../../test-utils/mockdata/planets';
 
-describe('App Component', () => {
+describe('Home Page', () => {
   beforeEach(() => {
     localStorage.clear();
   });
@@ -21,7 +21,7 @@ describe('App Component', () => {
 
     render(
       <ErrorBoundary fallback={(reset) => <ErrorFallback resetError={reset} />}>
-        <App />
+        <HomePage />
       </ErrorBoundary>
     );
 
@@ -38,7 +38,7 @@ describe('App Component', () => {
 
     render(
       <ErrorBoundary fallback={(reset) => <ErrorFallback resetError={reset} />}>
-        <App />
+        <HomePage />
       </ErrorBoundary>
     );
     await screen.findByRole('main');
@@ -51,7 +51,7 @@ describe('App Component', () => {
 
     render(
       <ErrorBoundary fallback={(reset) => <ErrorFallback resetError={reset} />}>
-        <App />
+        <HomePage />
       </ErrorBoundary>
     );
 
@@ -61,7 +61,7 @@ describe('App Component', () => {
 
   it('should render fetches data when click search button', async () => {
     const user = userEvent.setup();
-    render(<App />);
+    render(<HomePage />);
 
     const input = screen.getByPlaceholderText(/search/i);
     const searchBtn = screen.getByRole('button', { name: /search/i });
@@ -83,7 +83,7 @@ describe('App Component', () => {
 
     render(
       <ErrorBoundary fallback={(reset) => <ErrorFallback resetError={reset} />}>
-        <App />
+        <HomePage />
       </ErrorBoundary>
     );
 
@@ -98,7 +98,7 @@ describe('App Component', () => {
   it('should save value in localStorage after clicking Search', async () => {
     const user = userEvent.setup();
 
-    render(<App />);
+    render(<HomePage />);
 
     const input = screen.getByPlaceholderText(/search/i);
     const button = screen.getByRole('button', { name: /search/i });

@@ -5,7 +5,9 @@ function RootLayout() {
   return (
     <>
       <Header />
-      <Outlet />
+      <main className="bg-gray-100 min-h-[calc(100vh-68px)]">
+        <Outlet />
+      </main>
     </>
   );
 }
