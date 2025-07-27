@@ -8,6 +8,7 @@ export type Result = {
   gravity?: string;
   rotation_period?: string;
   orbital_period?: string;
+  surface_water?: string;
 };
 
 export interface ApiResponse {
