@@ -24,4 +24,24 @@ describe('Card Component', () => {
     expect(screen.getByText('Name')).toBeInTheDocument();
     expect(screen.getByText('-')).toBeInTheDocument();
   });
+
+  it('should render as a link when not head', () => {
+    render(
+      <MemoryRouter>
+        <Card name="Name" desc="Description" />
+      </MemoryRouter>
+    );
+
+    expect(screen.getByRole('link')).toBeInTheDocument();
+  });
+
+  it('should not render as link when head is true', () => {
+    render(
+      <MemoryRouter>
+        <Card name="Name" desc="Description" head />
+      </MemoryRouter>
+    );
+
+    expect(screen.queryByRole('link')).not.toBeInTheDocument();
+  });
 });

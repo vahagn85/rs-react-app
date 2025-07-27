@@ -1,7 +1,7 @@
 export type Result = {
   name: string;
   climate: string;
-  url: string;
+  url?: string;
   diameter?: string;
   population?: string;
   terrain?: string;

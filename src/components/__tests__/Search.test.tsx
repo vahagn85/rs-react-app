@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Search from '../Search';
 
-describe('Header Component', () => {
+describe('Search Component', () => {
   it('should render an input and a button', () => {
     render(<Search search="Test" />);
 

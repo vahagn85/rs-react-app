@@ -35,7 +35,7 @@ describe('App Component', () => {
     const cards = screen.getAllByRole('listitem');
     expect(cards).toHaveLength(mockPlanets.length + 1);
     mockPlanets.forEach((result, idx) => {
-      expect(cards[idx + 1]).toHaveTextContent(result.name);
+      expect(cards[idx + 1]).toHaveTextContent(result.name as string);
     });
   });
 
