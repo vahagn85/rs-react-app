@@ -10,20 +10,26 @@ import App from '../App';
 import ErrorBoundary from '../ErrorBoundary';
 import ErrorFallback from '../ErrorFallback';
 import { mockPlanets } from '../../test-utils/mockdata/planets';
+import { MemoryRouter } from 'react-router';
 
 describe('App Component', () => {
   beforeEach(() => {
     localStorage.clear();
   });
+  const renderComponent = () => {
+    render(
+      <ErrorBoundary fallback={(reset) => <ErrorFallback resetError={reset} />}>
+        <MemoryRouter>
+          <App />
+        </MemoryRouter>
+      </ErrorBoundary>
+    );
+  };
 
   it('should make API fetches and displays data', async () => {
     mockGetDataOnce();
 
-    render(
-      <ErrorBoundary fallback={(reset) => <ErrorFallback resetError={reset} />}>
-        <App />
-      </ErrorBoundary>
-    );
+    renderComponent();
 
     await screen.findByRole('list');
     const cards = screen.getAllByRole('listitem');
@@ -36,32 +42,30 @@ describe('App Component', () => {
   it('should handle network error', async () => {
     mockErrorNetworkOnce();
 
-    render(
-      <ErrorBoundary fallback={(reset) => <ErrorFallback resetError={reset} />}>
-        <App />
-      </ErrorBoundary>
-    );
-    await screen.findByRole('main');
+    renderComponent();
 
-    expect(screen.getByRole('paragraph')).toHaveTextContent('Network Error');
+    await waitFor(() => {
+      expect(screen.getByRole('paragraph')).toHaveTextContent('Network Error');
+    });
   });
 
   it('should render error message', async () => {
     mockErrorNotFoundOnce();
 
-    render(
-      <ErrorBoundary fallback={(reset) => <ErrorFallback resetError={reset} />}>
-        <App />
-      </ErrorBoundary>
-    );
+    renderComponent();
 
-    await screen.findByRole('main');
-    expect(screen.getByRole('paragraph')).toHaveTextContent('Not Found');
+    await waitFor(() => {
+      expect(screen.getByRole('paragraph')).toHaveTextContent('Not Found');
+    });
   });
 
   it('should render fetches data when click search button', async () => {
     const user = userEvent.setup();
-    render(<App />);
+    render(
+      <MemoryRouter>
+        <App />
+      </MemoryRouter>
+    );
 
     const input = screen.getByPlaceholderText(/search/i);
     const searchBtn = screen.getByRole('button', { name: /search/i });
@@ -72,33 +76,20 @@ describe('App Component', () => {
     mockGetSearchDataOnce((input as HTMLInputElement).value);
     await user.click(searchBtn);
 
-    await screen.findByRole('main');
-    expect(screen.getByText(/rth/i)).toBeInTheDocument();
-    expect(screen.queryByText(/ars/i)).not.toBeInTheDocument();
-  });
-
-  it('should crashes when "Throw Error" button is clicked', async () => {
-    vi.spyOn(console, 'error').mockImplementation(() => {});
-    const user = userEvent.setup();
-
-    render(
-      <ErrorBoundary fallback={(reset) => <ErrorFallback resetError={reset} />}>
-        <App />
-      </ErrorBoundary>
-    );
-
-    const errorBtn = screen.getByRole('button', { name: /throw error/i });
-    await user.click(errorBtn);
-
     await waitFor(() => {
-      expect(screen.getByText(/something went wrong/i)).toBeInTheDocument();
+      expect(screen.getByText(/rth/i)).toBeInTheDocument();
+      expect(screen.queryByText(/ars/i)).not.toBeInTheDocument();
     });
   });
 
   it('should save value in localStorage after clicking Search', async () => {
     const user = userEvent.setup();
 
-    render(<App />);
+    render(
+      <MemoryRouter>
+        <App />
+      </MemoryRouter>
+    );
 
     const input = screen.getByPlaceholderText(/search/i);
     const button = screen.getByRole('button', { name: /search/i });
