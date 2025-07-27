@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import Results from '../Results';
 import { mockPlanets } from '../../test-utils/mockdata/planets';
+import { MemoryRouter } from 'react-router';
 
 describe('Results Component', () => {
   it('should render loading spinner when loading is true', () => {
@@ -25,7 +26,11 @@ describe('Results Component', () => {
   });
 
   it('should render CardList when results exist', () => {
-    render(<Results results={mockPlanets} />);
+    render(
+      <MemoryRouter>
+        <Results results={mockPlanets} />
+      </MemoryRouter>
+    );
 
     expect(screen.getByRole('list')).toBeInTheDocument();
 

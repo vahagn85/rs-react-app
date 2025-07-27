@@ -1,24 +1,20 @@
-import { Component } from 'react';
-
 interface ButtonProps {
   name: string;
   variant?: 'primary' | 'danger';
   onClick?: () => void;
 }
 
-export default class Button extends Component<ButtonProps> {
-  static defaultProps = {
-    variant: 'primary',
-  };
+const Button = (props: ButtonProps) => {
+  const { name, variant = 'primary', onClick } = props;
 
-  render() {
-    return (
-      <button
-        onClick={this.props.onClick}
-        className={`text-white px-4 py-2 border border-gray-300 rounded-lg shadow-sm ${this.props.variant === 'primary' ? 'bg-blue-500 hover:bg-blue-600' : 'bg-red-500 hover:bg-red-600 mt-3'} cursor-pointer focus:outline-none`}
-      >
-        {this.props.name}
-      </button>
-    );
-  }
-}
+  return (
+    <button
+      onClick={onClick}
+      className={`text-white px-4 py-2 border border-gray-300 rounded-lg shadow-sm ${variant === 'primary' ? 'bg-blue-500 hover:bg-blue-600' : 'bg-red-500 hover:bg-red-600 mt-3'} cursor-pointer focus:outline-none`}
+    >
+      {name}
+    </button>
+  );
+};
+
+export default Button;
