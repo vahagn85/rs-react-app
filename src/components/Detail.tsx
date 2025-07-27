@@ -2,7 +2,7 @@ import { useNavigate, useParams } from 'react-router';
 import Loading from './Loading';
 import type { Result } from '../types/result.types';
 import DetailCard from './DetailCard';
-import useData from '../hooks/useData';
+import { useData } from '../hooks/useData';
 import Button from './Button';
 
 function Detail() {
