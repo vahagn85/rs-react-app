@@ -1,7 +1,6 @@
 import type { Result } from '../types/result.types';
 
 export interface AppState {
-  search: string;
   results: Result[];
   count: number;
   loading: boolean;
@@ -9,7 +8,6 @@ export interface AppState {
 }
 
 export type AppAction =
-  | { type: 'APP_SEARCH'; payload: string }
   | { type: 'APP_RESULTS'; payload: Result[]; count: number }
-  | { type: 'APP_LOADING'; payload: boolean }
+  | { type: 'APP_INIT'; payload: boolean }
   | { type: 'APP_ERROR'; payload: string | null };
