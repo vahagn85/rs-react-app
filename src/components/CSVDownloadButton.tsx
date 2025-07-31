@@ -1,0 +1,47 @@
+import { useRef } from 'react';
+import { generateCSV } from '../utils/filesUtiles';
+
+interface CSVDownloadButtonProps<T extends object> {
+  selectedItems: T[];
+  fileName?: string;
+}
+
+const CSVDownloadButton = <T extends object>({
+  selectedItems,
+  fileName,
+}: CSVDownloadButtonProps<T>) => {
+  const downloadLinkRef = useRef<HTMLAnchorElement | null>(null);
+
+  const handleDownload = () => {
+    const csv = generateCSV(selectedItems);
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+
+    const link = downloadLinkRef.current;
+    if (link) {
+      link.href = url;
+      link.download = fileName?.endsWith('.csv')
+        ? fileName
+        : `${fileName || `${selectedItems.length}_items`}.csv`;
+      link.click();
+      URL.revokeObjectURL(url);
+    }
+  };
+
+  return (
+    <>
+      <button
+        onClick={handleDownload}
+        disabled={selectedItems.length === 0}
+        className="px-4 py-2 rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 
+           hover:from-blue-600 hover:to-blue-700 text-white font-medium 
+           shadow-md transition-all focus:ring-2 focus:ring-blue-300 focus:outline-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        Download
+      </button>
+      <a ref={downloadLinkRef} className="hidden" />
+    </>
+  );
+};
+
+export default CSVDownloadButton;

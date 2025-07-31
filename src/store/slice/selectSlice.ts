@@ -5,7 +5,9 @@ export interface SelectSlice {
   selected: Result[];
   addItem: (data: Result) => void;
   removeItem: (url: string) => void;
+  cleanItems: () => void;
 }
+
 export const createSelectSlice: StateCreator<SelectSlice> = (set, get) => ({
   selected: [],
 
@@ -19,5 +21,9 @@ export const createSelectSlice: StateCreator<SelectSlice> = (set, get) => ({
   removeItem: (url) => {
     const currentSelected = get().selected;
     set({ selected: currentSelected.filter((item) => item.url !== url) });
+  },
+
+  cleanItems: () => {
+    set({ selected: [] });
   },
 });

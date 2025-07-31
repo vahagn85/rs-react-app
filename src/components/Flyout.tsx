@@ -1,17 +1,16 @@
 import { useAppStore } from '../store/appStore';
+import type { Result } from '../types/result.types';
 import Button from './Button';
+import CSVDownloadButton from './CSVDownloadButton';
 
 function Flyout() {
-  const { selected } = useAppStore();
+  const { selected, cleanItems } = useAppStore();
   const selectedCount = selected.length;
+
   if (selectedCount === 0) return null;
 
   const handleUnselectAll = () => {
-    console.log('Unselect all items');
-  };
-
-  const handleDownload = () => {
-    console.log('Download selected items');
+    cleanItems();
   };
 
   return (
@@ -30,7 +29,10 @@ function Flyout() {
             variant="danger"
             onClick={handleUnselectAll}
           />
-          <Button name="Download" onClick={handleDownload} />
+          <CSVDownloadButton<Result>
+            selectedItems={selected}
+            fileName={`${selectedCount}_items.csv`}
+          />
         </div>
       </div>
     </div>
