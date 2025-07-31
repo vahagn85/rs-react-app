@@ -20,6 +20,7 @@ const CardList = (props: CardListProps) => {
           desc={result.climate}
           page={page}
           detailsId={extractIdFromUrl(result.url ?? '') as number}
+          result={result}
         />
       ))}
     </ul>
