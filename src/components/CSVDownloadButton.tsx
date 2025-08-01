@@ -39,7 +39,7 @@ const CSVDownloadButton = <T extends object>({
       >
         Download
       </button>
-      <a ref={downloadLinkRef} className="hidden" />
+      <a data-testid="download-link" ref={downloadLinkRef} className="hidden" />
     </>
   );
 };
