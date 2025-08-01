@@ -24,7 +24,7 @@ function Pagination({
       <button
         onClick={() => handlePageChange(currentPage - 1)}
         disabled={currentPage === 1}
-        className={`px-3 py-1 border border-blue-500 rounded disabled:opacity-50 ${currentPage === 1 ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+        className={`px-3 py-1 border border-blue-500 dark:border-white dark:bg-white rounded disabled:opacity-50 ${currentPage === 1 ? 'cursor-not-allowed' : 'cursor-pointer'}`}
       >
         Prev
       </button>
@@ -33,8 +33,10 @@ function Pagination({
         <button
           key={page}
           onClick={() => handlePageChange(page)}
-          className={`px-3 py-1 border border-blue-500 rounded cursor-pointer ${
-            currentPage === page ? 'bg-blue-500 text-white' : 'bg-white'
+          className={`px-3 py-1 border border-blue-500 dark:border-white  rounded cursor-pointer ${
+            currentPage === page
+              ? 'bg-blue-500 dark:bg-gray-900 text-white'
+              : 'bg-white'
           }`}
         >
           {page}
@@ -43,7 +45,7 @@ function Pagination({
       <button
         onClick={() => handlePageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
-        className={`px-3 py-1 border border-blue-500 rounded disabled:opacity-50 ${currentPage === totalPages ? 'cursor-not-allowed' : 'cursor-pointer'}  `}
+        className={`px-3 py-1 border border-blue-500 dark:border-white dark:bg-white rounded disabled:opacity-50 ${currentPage === totalPages ? 'cursor-not-allowed' : 'cursor-pointer'}  `}
       >
         Next
       </button>

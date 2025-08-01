@@ -20,7 +20,7 @@ const Results = (props: ResultsProps) => {
   };
 
   return (
-    <div className="flex items-center justify-center p-4 min-h-40 mt-4 bg-white rounded-lg shadow-md">
+    <div className="flex items-center justify-center p-4 min-h-40 mt-4 bg-white dark:bg-gray-400 rounded-lg shadow-md">
       {renderContent()}
     </div>
   );
