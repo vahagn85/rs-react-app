@@ -1,4 +1,4 @@
-# Task: React project setup. Class components. Error boundary.
+# Task: State Management and Context API
 
 ## Cross-code-review process
 
