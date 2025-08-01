@@ -4,6 +4,7 @@ import ErrorBoundary from './components/ErrorBoundary.tsx';
 import ErrorFallback from './components/ErrorFallback.tsx';
 import { RouterProvider } from 'react-router';
 import { router } from './routes.ts';
+import ThemeProvider from './context/ThemeProvider.tsx';
 
 const rootElement = document.getElementById('root');
 if (rootElement) {
@@ -11,7 +12,9 @@ if (rootElement) {
     <ErrorBoundary
       fallback={(resetError) => <ErrorFallback resetError={resetError} />}
     >
-      <RouterProvider router={router} />
+      <ThemeProvider>
+        <RouterProvider router={router} />
+      </ThemeProvider>
     </ErrorBoundary>
   );
 } else {

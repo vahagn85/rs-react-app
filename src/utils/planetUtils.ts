@@ -1,7 +1,9 @@
 import type { Result } from '../types/result.types';
 
 export const formatNumber = (num: string): string => {
-  return num === 'unknown' ? 'Unknown' : Number(num).toLocaleString();
+  if (num === 'unknown') return 'Unknown';
+  const parsed = Number(num);
+  return isNaN(parsed) ? 'Unknown' : parsed.toLocaleString('en-US');
 };
 
 export const getPlanetDetails = (planet: Result) => {

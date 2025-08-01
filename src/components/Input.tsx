@@ -10,7 +10,7 @@ const Input = (props: InputProps) => {
     <input
       type="text"
       placeholder="Search..."
-      className="flex-auto p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+      className="flex-auto p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-white dark:text-black"
       value={value}
       onChange={(e) => onSearch?.(e.target.value)}
     />

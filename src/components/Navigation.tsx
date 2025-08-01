@@ -13,7 +13,9 @@ function Navigation() {
             <NavLink
               to={menu.path}
               className={({ isActive }) =>
-                (isActive ? 'text-yellow-100' : 'hover:text-yellow-100') +
+                (isActive
+                  ? 'text-gray-500 dark:text-yellow-100'
+                  : 'hover:text-gray-500 dark:hover:text-yellow-100') +
                 ' transition-colors duration-300'
               }
             >
