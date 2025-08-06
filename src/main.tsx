@@ -5,6 +5,10 @@ import ErrorFallback from './components/ErrorFallback.tsx';
 import { RouterProvider } from 'react-router';
 import { router } from './routes.ts';
 import ThemeProvider from './context/ThemeProvider.tsx';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+
+const queryClient = new QueryClient();
 
 const rootElement = document.getElementById('root');
 if (rootElement) {
@@ -12,9 +16,12 @@ if (rootElement) {
     <ErrorBoundary
       fallback={(resetError) => <ErrorFallback resetError={resetError} />}
     >
-      <ThemeProvider>
-        <RouterProvider router={router} />
-      </ThemeProvider>
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider>
+          <RouterProvider router={router} />
+        </ThemeProvider>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
     </ErrorBoundary>
   );
 } else {
