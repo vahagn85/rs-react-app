@@ -5,6 +5,9 @@ import Pagination from './Pagination';
 import { useNavigate, useParams } from 'react-router';
 import { useSearchFromLS } from '../hooks/useSearchFromLS';
 import { useQueryPlanets } from '../hooks/useQueryPlanets';
+import { useQueryRefresh } from '../hooks/useQueryRefresh';
+import Button from './Button';
+
 function App() {
   const { page, detailsId } = useParams();
   const navigate = useNavigate();
@@ -14,6 +17,7 @@ function App() {
   const [searchApi, setSearchApi] = useState(searchLS);
 
   const { isPending, isError, data, error } = useQueryPlanets(searchApi, page);
+  const refresh = useQueryRefresh('planets', searchApi, page);
 
   const handleSearch = (value: string) => setSearch(value);
 
@@ -27,9 +31,15 @@ function App() {
   const handlePageChange = (newPage: number) => {
     navigate(`/${newPage}${detailsId ? `/${detailsId}` : ''}`);
   };
+
   return (
     <div className="w-full max-w-xl mx-auto px-4 py-8">
       <Search search={search} onSearch={handleSearch} onClick={handleClick} />
+      <Button
+        name="Refresh Planets - Manual cache invalidation"
+        className="mt-4"
+        onClick={refresh}
+      />
       <Results
         results={data?.results || []}
         loading={isPending}

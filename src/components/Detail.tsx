@@ -3,11 +3,13 @@ import Loading from './Loading';
 import DetailCard from './DetailCard';
 import Button from './Button';
 import { useQueryPlanet } from '../hooks/useQueryPlanet';
+import { useQueryRefresh } from '../hooks/useQueryRefresh';
 
 function Detail() {
   const { detailsId, page } = useParams();
   const navigate = useNavigate();
   const { isPending, isError, data, error } = useQueryPlanet(detailsId ?? '');
+  const refresh = useQueryRefresh('planet', detailsId);
 
   const renderContent = () => {
     if (isPending) return <Loading />;
@@ -20,6 +22,7 @@ function Detail() {
   return (
     <div className="relative bg-white flex-1 p-2">
       <div className="flex justify-end">
+        <Button name="Refresh Planet" className="mr-2" onClick={refresh} />
         <Button
           variant="danger"
           name="X"
