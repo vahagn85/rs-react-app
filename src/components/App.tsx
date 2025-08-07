@@ -4,7 +4,7 @@ import Search from './Search';
 import Pagination from './Pagination';
 import { useNavigate, useParams } from 'react-router';
 import { useSearchFromLS } from '../hooks/useSearchFromLS';
-import { useDataPlanets } from '../hooks/useDataPlanets';
+import { useQueryPlanets } from '../hooks/useQueryPlanets';
 function App() {
   const { page, detailsId } = useParams();
   const navigate = useNavigate();
@@ -13,7 +13,7 @@ function App() {
   const [search, setSearch] = useState(searchLS);
   const [searchApi, setSearchApi] = useState(searchLS);
 
-  const { isPending, isError, data, error } = useDataPlanets(searchApi, page);
+  const { isPending, isError, data, error } = useQueryPlanets(searchApi, page);
 
   const handleSearch = (value: string) => setSearch(value);
 
