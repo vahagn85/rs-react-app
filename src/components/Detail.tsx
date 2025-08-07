@@ -1,18 +1,17 @@
 import { useNavigate, useParams } from 'react-router';
 import Loading from './Loading';
-import type { Result } from '../types/result.types';
 import DetailCard from './DetailCard';
-import { useData } from '../hooks/useData';
 import Button from './Button';
+import { useQueryPlanet } from '../hooks/useQueryPlanet';
 
 function Detail() {
   const { detailsId, page } = useParams();
   const navigate = useNavigate();
-  const { loading, data, error } = useData<Result>(`/planets/${detailsId}`);
+  const { isPending, isError, data, error } = useQueryPlanet(detailsId ?? '');
 
   const renderContent = () => {
-    if (loading) return <Loading />;
-    if (error) return <p className="text-red-500">{error}</p>;
+    if (isPending) return <Loading />;
+    if (isError) return <p className="text-red-500">{error.message}</p>;
     if (!data) {
       return <p className="text-gray-500">No found</p>;
     }
