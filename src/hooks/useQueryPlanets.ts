@@ -10,5 +10,7 @@ export function useQueryPlanets(initSearch = '', initPage = '1') {
         page: initPage || '1',
         search: initSearch,
       }),
+    staleTime: 1000 * 60 * 7,
+    refetchOnWindowFocus: false,
   });
 }

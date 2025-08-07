@@ -6,5 +6,8 @@ export function useQueryPlanet(id: string) {
   return useQuery({
     queryKey: ['planet', id],
     queryFn: () => apiService.getData<Result>(`/planets/${id}`),
+    staleTime: 1000 * 60 * 7,
+    enabled: !!id,
+    refetchOnWindowFocus: false,
   });
 }
