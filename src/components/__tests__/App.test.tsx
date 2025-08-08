@@ -1,8 +1,6 @@
 import {
   mockErrorNetworkOnce,
   mockErrorNotFoundOnce,
-  mockGetDataOnce,
-  mockGetSearchDataOnce,
 } from '../../test-utils/mockApi';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -11,23 +9,38 @@ import ErrorBoundary from '../ErrorBoundary';
 import ErrorFallback from '../ErrorFallback';
 import { mockPlanets } from '../../test-utils/mockdata/planets';
 import { MemoryRouter } from 'react-router';
+import { createQueryWrapper } from '../../test-utils/createQueryWrapper';
+
+vi.mock('../../hooks/useQueryPlanets', () => ({
+  useQueryPlanets: vi.fn(),
+}));
+import { useQueryPlanets } from '../../hooks/useQueryPlanets';
 
 describe('App Component', () => {
   beforeEach(() => {
     localStorage.clear();
   });
+  const Wrapper = createQueryWrapper();
   const renderComponent = () => {
     render(
-      <ErrorBoundary fallback={(reset) => <ErrorFallback resetError={reset} />}>
-        <MemoryRouter>
-          <App />
-        </MemoryRouter>
-      </ErrorBoundary>
+      <Wrapper>
+        <ErrorBoundary
+          fallback={(reset) => <ErrorFallback resetError={reset} />}
+        >
+          <MemoryRouter>
+            <App />
+          </MemoryRouter>
+        </ErrorBoundary>
+      </Wrapper>
     );
   };
 
   it('should make API fetches and displays data', async () => {
-    mockGetDataOnce();
+    (useQueryPlanets as unknown as ReturnType<typeof vi.fn>).mockReturnValue({
+      isPending: false,
+      isError: false,
+      data: { results: mockPlanets },
+    });
 
     renderComponent();
 
@@ -40,6 +53,12 @@ describe('App Component', () => {
   });
 
   it('should handle network error', async () => {
+    (useQueryPlanets as unknown as ReturnType<typeof vi.fn>).mockReturnValue({
+      isPending: false,
+      isError: true,
+      error: { message: 'Network Error' },
+      data: null,
+    });
     mockErrorNetworkOnce();
 
     renderComponent();
@@ -50,21 +69,35 @@ describe('App Component', () => {
   });
 
   it('should render error message', async () => {
+    (useQueryPlanets as unknown as ReturnType<typeof vi.fn>).mockReturnValue({
+      isPending: false,
+      isError: false,
+      data: null,
+    });
     mockErrorNotFoundOnce();
 
     renderComponent();
 
     await waitFor(() => {
-      expect(screen.getByRole('paragraph')).toHaveTextContent('Not Found');
+      expect(screen.getByRole('paragraph')).toHaveTextContent(
+        'No results found'
+      );
     });
   });
 
   it('should render fetches data when click search button', async () => {
+    (useQueryPlanets as unknown as ReturnType<typeof vi.fn>).mockReturnValue({
+      isPending: false,
+      isError: false,
+      data: { results: mockPlanets },
+    });
     const user = userEvent.setup();
     render(
-      <MemoryRouter>
-        <App />
-      </MemoryRouter>
+      <Wrapper>
+        <MemoryRouter>
+          <App />
+        </MemoryRouter>
+      </Wrapper>
     );
 
     const input = screen.getByPlaceholderText(/search/i);
@@ -73,7 +106,11 @@ describe('App Component', () => {
     await user.clear(input);
     await user.type(input, 'rth');
 
-    mockGetSearchDataOnce((input as HTMLInputElement).value);
+    (useQueryPlanets as unknown as ReturnType<typeof vi.fn>).mockReturnValue({
+      isPending: false,
+      isError: false,
+      data: { results: mockPlanets.filter((p) => p.name.includes('rth')) },
+    });
     await user.click(searchBtn);
 
     await waitFor(() => {
@@ -86,9 +123,11 @@ describe('App Component', () => {
     const user = userEvent.setup();
 
     render(
-      <MemoryRouter>
-        <App />
-      </MemoryRouter>
+      <Wrapper>
+        <MemoryRouter>
+          <App />
+        </MemoryRouter>
+      </Wrapper>
     );
 
     const input = screen.getByPlaceholderText(/search/i);
