@@ -2,15 +2,17 @@ import { useState } from 'react';
 import Results from './Results';
 import Search from './Search';
 import Pagination from './Pagination';
-import { useNavigate, useParams } from 'react-router';
+import { useRouter } from 'next/navigation';
 import { useSearchFromLS } from '../hooks/useSearchFromLS';
 import { useQueryPlanets } from '../hooks/useQueryPlanets';
 import { useQueryRefresh } from '../hooks/useQueryRefresh';
 import Button from './Button';
 
 function App() {
-  const { page, detailsId } = useParams();
-  const navigate = useNavigate();
+  // const { page, detailsId } = useParams();
+  const page = '1';
+  const detailsId = '1';
+  const navigate = useRouter();
 
   const { value: searchLS, updateSearch } = useSearchFromLS('search-swapi', '');
   const [search, setSearch] = useState(searchLS);
@@ -29,7 +31,7 @@ function App() {
   };
 
   const handlePageChange = (newPage: number) => {
-    navigate(`/${newPage}${detailsId ? `/${detailsId}` : ''}`);
+    navigate.push(`/${newPage}${detailsId ? `/${detailsId}` : ''}`);
   };
 
   return (

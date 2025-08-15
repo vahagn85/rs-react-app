@@ -1,10 +1,10 @@
-import { useNavigate } from 'react-router';
+// import { useNavigate } from 'react-router';
 import Button from '../components/Button';
 
 function NotFoundPage() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const handleClick = () => {
-    navigate('/', { replace: true });
+    // navigate('/', { replace: true });
   };
   return (
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh-68px)] bg-gray-100 text-gray-800 px-4 text-center">

@@ -1,3 +1,4 @@
+'use client';
 import { useAppStore } from '../store/appStore';
 import type { Result } from '../types/result.types';
 import Button from './Button';

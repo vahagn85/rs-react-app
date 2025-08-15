@@ -1,13 +1,17 @@
-import { useNavigate, useParams } from 'react-router';
+// import { useNavigate, useParams } from 'react-router';
 import Loading from './Loading';
 import DetailCard from './DetailCard';
 import Button from './Button';
 import { useQueryPlanet } from '../hooks/useQueryPlanet';
 import { useQueryRefresh } from '../hooks/useQueryRefresh';
+import { useRouter } from 'next/navigation';
 
 function Detail() {
-  const { detailsId, page } = useParams();
-  const navigate = useNavigate();
+  // const { detailsId, page } = useParams();
+  // const navigate = useNavigate();
+  const page = '1';
+  const detailsId = '1';
+  const router = useRouter();
   const { isPending, isError, data, error } = useQueryPlanet(detailsId ?? '');
   const refresh = useQueryRefresh('planet', detailsId);
 
@@ -26,7 +30,7 @@ function Detail() {
         <Button
           variant="danger"
           name="X"
-          onClick={() => navigate(`/${page}`)}
+          onClick={() => router.push(`/${page}`)}
         />
       </div>
       <div className="w-full max-w-xl mx-auto px-4 py-8">

@@ -1,6 +1,6 @@
 import Card from './Card';
 import type { Result } from '../types/result.types';
-import { useParams } from 'react-router';
+// import { useParams } from 'react-router';
 import { extractIdFromUrl } from '../utils/extractId';
 
 interface CardListProps {
@@ -9,7 +9,8 @@ interface CardListProps {
 
 const CardList = (props: CardListProps) => {
   const { results } = props;
-  const { page } = useParams();
+  // const { page } = useParams();
+  const page = '1';
   return (
     <ul className="w-full">
       <Card head name="Name-(Planet)" desc="Description-(Climate)" />
