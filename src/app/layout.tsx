@@ -3,6 +3,7 @@ import Header from '../components/Header';
 import Flyout from '../components/Flyout';
 import ThemeProvider from '../context/ThemeProvider';
 import { QueryProvider } from '../providers/QueryProvider';
+import './globals.css';
 
 export const metadata: Metadata = {
   title: 'RS React app',
