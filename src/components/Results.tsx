@@ -21,7 +21,7 @@ const Results = (props: ResultsProps) => {
   const renderContent = () => {
     if (isPending || !isFetched) return <Loading />;
     if (isError) return <p className="text-red-500">{error.message}</p>;
-    if (!data) {
+    if (data && data?.results.length === 0) {
       return <p className="text-gray-500">No results found</p>;
     }
     return <CardList results={data?.results || []} />;

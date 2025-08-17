@@ -33,6 +33,7 @@ export default async function Page({
       page: pageId,
       search: '',
     });
+    console.log(data, 11);
     if (!data) {
       notFound();
     }

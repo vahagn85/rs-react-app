@@ -12,6 +12,7 @@ export default async function HomePage() {
       page: '1',
       search: '',
     });
+
     if (!data) {
       notFound();
     }

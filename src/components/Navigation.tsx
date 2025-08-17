@@ -1,5 +1,4 @@
 import { useTranslations } from 'next-intl';
-import { useLocale } from 'next-intl';
 import { Link } from '../i18n/navigation';
 const menus = [
   { name: 'main', path: '/' },
@@ -9,14 +8,14 @@ const menus = [
 function Navigation() {
   const isActive = false;
   const t = useTranslations('Menu');
-  const local = useLocale();
+
   return (
     <nav>
       <ul className="flex items-center gap-3 text-lg font-semibold">
         {menus.map((menu) => (
           <li key={menu.name}>
             <Link
-              href={local + menu.path}
+              href={menu.path}
               className={`transition-colors duration-300 ${
                 isActive
                   ? 'text-gray-500 dark:text-yellow-100'
