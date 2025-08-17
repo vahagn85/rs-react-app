@@ -14,7 +14,7 @@ export async function generateStaticParams() {
   const totalPages = Math.ceil(data.count / 10);
 
   return Array.from({ length: totalPages }, (_, i) => ({
-    page: String(i + 1),
+    pageId: String(i + 1),
   }));
 }
 
@@ -33,7 +33,6 @@ export default async function Page({
       page: pageId,
       search: '',
     });
-    console.log(data, 11);
     if (!data) {
       notFound();
     }
