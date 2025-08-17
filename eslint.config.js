@@ -9,7 +9,7 @@ import eslintPluginPrettier from 'eslint-plugin-prettier/recommended';
 import reactCompiler from 'eslint-plugin-react-compiler';
 
 export default tseslint.config([
-  globalIgnores(['dist', 'coverage']),
+  globalIgnores(['dist', 'next-env.d.ts']),
   {
     files: ['**/*.{ts,tsx}'],
     extends: [
@@ -41,6 +41,12 @@ export default tseslint.config([
       react: {
         version: 'detect',
       },
+    },
+  },
+  {
+    files: ['src/app/**/layout.tsx', 'src/app/**/page.tsx'],
+    rules: {
+      'react-refresh/only-export-components': 'off',
     },
   },
 ]);

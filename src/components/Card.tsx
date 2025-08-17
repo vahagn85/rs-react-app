@@ -1,4 +1,5 @@
-import { NavLink } from 'react-router';
+'use client';
+import { Link } from '../i18n/navigation';
 import { useAppStore } from '../store/appStore';
 import type { Result } from '../types/result.types';
 import type { ChangeEvent } from 'react';
@@ -35,7 +36,7 @@ const Card = (props: CardProps) => {
   );
 
   const isChecked = selected.some((item) => item.url === result?.url);
-
+  const isActive = false;
   return (
     <li
       className={`flex border bg-gray-100 rounded-lg shadow-md mb-4 ${head ? 'bg-gray-300' : 'border-gray-100'}`}
@@ -50,14 +51,12 @@ const Card = (props: CardProps) => {
             checked={isChecked}
             onChange={handleCheck}
           />
-          <NavLink
-            to={`/${page}/${detailsId}`}
-            className={({ isActive }) =>
-              `flex flex-auto gap-2 p-4 border-l border-gray-500 ${isActive ? 'bg-yellow-200 shadow-lg' : ''} hover:bg-yellow-200 hover:cursor-pointer hover:shadow-lg transition-normal duration-200`
-            }
+          <Link
+            href={`/${page}/${detailsId}`}
+            className={`flex flex-auto gap-2 p-4 border-l border-gray-500 ${isActive ? 'bg-yellow-200 shadow-lg' : ''} hover:bg-yellow-200 hover:cursor-pointer hover:shadow-lg transition-normal duration-200`}
           >
             {content}
-          </NavLink>
+          </Link>
         </>
       )}
     </li>

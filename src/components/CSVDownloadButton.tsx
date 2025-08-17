@@ -1,5 +1,7 @@
+'use client';
 import { useRef } from 'react';
-import { generateCSV } from '../utils/filesUtiles';
+import { exportCsv } from '../app/actions/exportCsv';
+import { useTranslations } from 'next-intl';
 
 interface CSVDownloadButtonProps<T extends object> {
   selectedItems: T[];
@@ -10,19 +12,24 @@ const CSVDownloadButton = <T extends object>({
   selectedItems,
   fileName,
 }: CSVDownloadButtonProps<T>) => {
+  const t = useTranslations('UI');
   const downloadLinkRef = useRef<HTMLAnchorElement | null>(null);
 
-  const handleDownload = () => {
-    const csv = generateCSV(selectedItems);
+  const handleDownload = async () => {
+    const { csv, fileName: serverFileName } = await exportCsv(
+      selectedItems,
+      fileName || `${selectedItems.length}_items.csv`
+    );
+
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
 
     const link = downloadLinkRef.current;
     if (link) {
       link.href = url;
-      link.download = fileName?.endsWith('.csv')
-        ? fileName
-        : `${fileName || `${selectedItems.length}_items`}.csv`;
+      link.download = serverFileName?.endsWith('.csv')
+        ? serverFileName
+        : `${serverFileName || `${selectedItems.length}_items`}.csv`;
       link.click();
       URL.revokeObjectURL(url);
     }
@@ -37,7 +44,7 @@ const CSVDownloadButton = <T extends object>({
            hover:from-blue-600 hover:to-blue-700 text-white font-medium 
            shadow-md transition-all focus:ring-2 focus:ring-blue-300 focus:outline-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        Download
+        {t('download')}
       </button>
       <a data-testid="download-link" ref={downloadLinkRef} className="hidden" />
     </>

@@ -1,0 +1,34 @@
+{
+  "List": {
+    "name": "Name - (planet)",
+    "description": "Description - (climate)"
+  },
+  "Menu": {
+    "main": "Main",
+    "about": "About"
+  },
+  "UI": {
+    "search": "Search",
+    "prev": "Prev",
+    "next": "Next",
+    "download": "Download",
+    "item": "item",
+    "selected": "selected",
+    "unselectAll": "Unselect all",
+    "details": "Details"
+  },
+  "AboutPage": {
+    "title": "About",
+    "author": "Author Information",
+    "description": "Hi! My name is Vahagn, a Front-End Developer. I am flexible, quick to pick up new skills and eager to learn from others.",
+    "github": "My GitHub",
+    "courseTitle": "RS School React course",
+    "courseDescription": "The Rolling Scopes was founded in 2013 in Minsk as a community of Front-end developers. It has since grown into an enormous international developers community.",
+    "courseLink": "Visit RS School React course"
+  },
+  "NotFoundPage": {
+    "title": "Page Not Found",
+    "description": "Oops! The page you're looking for doesn't exist or has been moved.",
+    "home": "Go to Homepage"
+  }
+}

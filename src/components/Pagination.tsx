@@ -1,23 +1,27 @@
+'use client';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 
 interface PaginationProps {
   totalCount: number;
   current: number;
   itemsPerPage?: number;
-  onPageChange: (page: number) => void;
 }
 
 function Pagination({
   totalCount,
   current,
   itemsPerPage = 10,
-  onPageChange,
 }: PaginationProps) {
   const totalPages = Math.ceil(totalCount / itemsPerPage);
   const [currentPage, setCurrentPage] = useState(current);
+  const router = useRouter();
+  const t = useTranslations('UI');
+
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
-    onPageChange(page);
+    router.replace(`/${page}`);
   };
   return (
     <div className="flex justify-center items-center mt-4 gap-2">
@@ -26,7 +30,7 @@ function Pagination({
         disabled={currentPage === 1}
         className={`px-3 py-1 border border-blue-500 dark:border-white dark:bg-white rounded disabled:opacity-50 ${currentPage === 1 ? 'cursor-not-allowed' : 'cursor-pointer'}`}
       >
-        Prev
+        {t('prev')}
       </button>
 
       {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
@@ -47,7 +51,7 @@ function Pagination({
         disabled={currentPage === totalPages}
         className={`px-3 py-1 border border-blue-500 dark:border-white dark:bg-white rounded disabled:opacity-50 ${currentPage === totalPages ? 'cursor-not-allowed' : 'cursor-pointer'}  `}
       >
-        Next
+        {t('next')}
       </button>
     </div>
   );

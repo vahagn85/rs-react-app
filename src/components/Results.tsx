@@ -1,22 +1,30 @@
+'use client';
 import CardList from './CardList';
-import type { Result } from '../types/result.types';
 import Loading from './Loading';
+import { useQueryPlanets } from '../hooks/useQueryPlanets';
+import { ApiResponse } from '../types/result.types';
+import { useSearchStore } from '../store/searchStore';
 
 interface ResultsProps {
-  results: Result[];
-  loading?: boolean;
-  error?: string | null;
+  initialData: ApiResponse | null;
+  pageId?: string;
 }
 
 const Results = (props: ResultsProps) => {
+  const search = useSearchStore((state) => state.search);
+  const { isPending, isError, data, error, isFetched } = useQueryPlanets(
+    search,
+    props.pageId || '1',
+    props.initialData as ApiResponse
+  );
+
   const renderContent = () => {
-    const { loading, results, error } = props;
-    if (loading) return <Loading />;
-    if (error) return <p className="text-red-500">{error}</p>;
-    if (results.length === 0) {
+    if (isPending || !isFetched) return <Loading />;
+    if (isError) return <p className="text-red-500">{error.message}</p>;
+    if (data && data?.results.length === 0) {
       return <p className="text-gray-500">No results found</p>;
     }
-    return <CardList results={results} />;
+    return <CardList results={data?.results || []} />;
   };
 
   return (

@@ -1,3 +1,4 @@
+'use client';
 import { useTheme } from '../../hooks/useTheme';
 import type { Theme } from '../../types/theme.types';
 import ThemeIcon from './ThemeIcon';
