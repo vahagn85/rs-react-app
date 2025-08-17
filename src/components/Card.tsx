@@ -1,5 +1,5 @@
 'use client';
-import Link from 'next/link';
+import { Link } from '../i18n/navigation';
 import { useAppStore } from '../store/appStore';
 import type { Result } from '../types/result.types';
 import type { ChangeEvent } from 'react';

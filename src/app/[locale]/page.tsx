@@ -4,33 +4,12 @@ import Results from '../../components/Results';
 import Search from '../../components/Search';
 import { apiService } from '../../services/api.service';
 import { ApiResponse } from '../../types/result.types';
-
-export async function generateStaticParams() {
-  const data = await apiService.getData<ApiResponse>('/planets', {
-    page: '1',
-    search: '',
-  });
-
-  const totalPages = Math.ceil(data.count / 10);
-
-  return Array.from({ length: totalPages }, (_, i) => ({
-    page: String(i + 1),
-  }));
-}
-
-export default async function Page({
-  params,
-}: {
-  params: Promise<{ pageId: string }>;
-}) {
-  const { pageId } = await params;
-
+export default async function HomePage() {
   let data: ApiResponse | null = null;
-  let error: Error | string | null = null;
-
+  let error: string | null = null;
   try {
     data = await apiService.getData<ApiResponse>('/planets', {
-      page: pageId,
+      page: '1',
       search: '',
     });
     if (!data) {
@@ -41,16 +20,17 @@ export default async function Page({
   }
   if (error) {
     return (
-      <div className="relative p-2">
+      <div className="p-2">
         <p className="text-red-500">{error}</p>
       </div>
     );
   }
+
   return (
     <div className="w-full max-w-xl mx-auto px-4 py-8">
       <Search />
-      <Results initialData={data} pageId={pageId} />
-      <Pagination totalCount={data?.count as number} current={Number(pageId)} />
+      <Results initialData={data} />
+      <Pagination totalCount={data?.count as number} current={1} />
     </div>
   );
 }

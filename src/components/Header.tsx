@@ -1,6 +1,7 @@
-import Link from 'next/link';
 import Navigation from './Navigation';
 import ThemeSwitcher from './Theme/ThemeSwitcher';
+import LanguageSwitcher from './LanguageSwitcher';
+import { Link } from '../i18n/navigation';
 
 function Header() {
   return (
@@ -13,7 +14,10 @@ function Header() {
           Star Wars
         </Link>
         <Navigation />
-        <ThemeSwitcher />
+        <div className="flex flex-wrap items-center gap-3">
+          <ThemeSwitcher />
+          <LanguageSwitcher />
+        </div>
       </div>
     </header>
   );

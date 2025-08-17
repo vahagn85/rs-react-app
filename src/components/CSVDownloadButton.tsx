@@ -1,6 +1,7 @@
 'use client';
 import { useRef } from 'react';
 import { exportCsv } from '../app/actions/exportCsv';
+import { useTranslations } from 'next-intl';
 
 interface CSVDownloadButtonProps<T extends object> {
   selectedItems: T[];
@@ -11,6 +12,7 @@ const CSVDownloadButton = <T extends object>({
   selectedItems,
   fileName,
 }: CSVDownloadButtonProps<T>) => {
+  const t = useTranslations('UI');
   const downloadLinkRef = useRef<HTMLAnchorElement | null>(null);
 
   const handleDownload = async () => {
@@ -42,7 +44,7 @@ const CSVDownloadButton = <T extends object>({
            hover:from-blue-600 hover:to-blue-700 text-white font-medium 
            shadow-md transition-all focus:ring-2 focus:ring-blue-300 focus:outline-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        Download
+        {t('download')}
       </button>
       <a data-testid="download-link" ref={downloadLinkRef} className="hidden" />
     </>

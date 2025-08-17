@@ -1,9 +1,11 @@
-import DetailButton from '../../../../components/DetailButton';
-import DetailCard from '../../../../components/DetailCard';
-import { apiService } from '../../../../services/api.service';
-import { ApiResponse, Result } from '../../../../types/result.types';
-import { extractIdFromUrl } from '../../../../utils/extractId';
+import DetailButton from '../../../../../components/DetailButton';
+import DetailCard from '../../../../../components/DetailCard';
+import { apiService } from '../../../../../services/api.service';
+import { ApiResponse, Result } from '../../../../../types/result.types';
+import { extractIdFromUrl } from '../../../../../utils/extractId';
 import { notFound } from 'next/navigation';
+import { getTranslations } from 'next-intl/server';
+
 export async function generateStaticParams() {
   const firstPage = await apiService.getData<ApiResponse>('/planets', {
     page: '1',
@@ -37,6 +39,7 @@ export default async function DetailsPage({
   params: Promise<{ pageId: string; detailsId: string }>;
 }) {
   const { detailsId } = await params;
+  const t = await getTranslations('UI');
   let data: Result | null = null;
   let error: Error | string | null = null;
 
@@ -60,7 +63,7 @@ export default async function DetailsPage({
     <div className="relative bg-white flex-1 p-2">
       <DetailButton />
       <div className="w-full max-w-xl mx-auto px-4 py-8">
-        <h2 className="text-2xl font-bold mb-4">Details</h2>
+        <h2 className="text-2xl font-bold mb-4">{t('details')}</h2>
         <DetailCard data={data as Result} />
       </div>
     </div>
