@@ -19,21 +19,19 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body suppressHydrationWarning>
-        <div id="root">
-          <QueryProvider>
-            <ThemeProvider>
-              <div
-                className={`flex flex-col min-h-screen h-[1px] ${theme === 'dark' ? 'dark' : ''}`}
-              >
-                <Header />
-                <main className="bg-gray-100 dark:bg-gray-600 flex-1">
-                  {children}
-                </main>
-                <Flyout />
-              </div>
-            </ThemeProvider>
-          </QueryProvider>
-        </div>
+        <QueryProvider>
+          <ThemeProvider>
+            <div
+              className={`flex flex-col min-h-screen h-[1px] ${theme === 'dark' ? 'dark' : ''}`}
+            >
+              <Header />
+              <main className="bg-gray-100 dark:bg-gray-600 flex-1">
+                {children}
+              </main>
+              <Flyout />
+            </div>
+          </ThemeProvider>
+        </QueryProvider>
       </body>
     </html>
   );

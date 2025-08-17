@@ -2,7 +2,11 @@ import { apiService } from '../services/api.service';
 import type { ApiResponse } from '../types/result.types';
 import { useQuery } from '@tanstack/react-query';
 
-export function useQueryPlanets(initSearch = '', initPage = '1') {
+export function useQueryPlanets(
+  initSearch = '',
+  initPage = '1',
+  initialData?: ApiResponse
+) {
   return useQuery({
     queryKey: ['planets', initSearch, initPage],
     queryFn: () =>
@@ -10,7 +14,8 @@ export function useQueryPlanets(initSearch = '', initPage = '1') {
         page: initPage || '1',
         search: initSearch,
       }),
-    staleTime: 1000 * 60 * 7,
+    staleTime: 0,
     refetchOnWindowFocus: false,
+    initialData: initialData || undefined,
   });
 }

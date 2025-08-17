@@ -1,10 +1,13 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export const useSearchFromLS = (key: string, initialValue = '') => {
-  const [value, setValue] = useState(() => {
-    const savedValue = localStorage.getItem(key);
-    return savedValue !== null ? savedValue : initialValue;
-  });
+  const [value, setValue] = useState(initialValue);
+
+  useEffect(() => {
+    const savedValue =
+      typeof window !== 'undefined' ? localStorage.getItem(key) : null;
+    if (savedValue !== null) setValue(savedValue);
+  }, [key]);
 
   const clearSearch = () => {
     localStorage.removeItem(key);
@@ -13,7 +16,9 @@ export const useSearchFromLS = (key: string, initialValue = '') => {
 
   const updateSearch = (newValue: string) => {
     setValue(newValue);
-    localStorage.setItem(key, newValue);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(key, newValue);
+    }
   };
 
   return {

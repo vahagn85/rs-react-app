@@ -1,23 +1,25 @@
+'use client';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 interface PaginationProps {
   totalCount: number;
   current: number;
   itemsPerPage?: number;
-  onPageChange: (page: number) => void;
 }
 
 function Pagination({
   totalCount,
   current,
   itemsPerPage = 10,
-  onPageChange,
 }: PaginationProps) {
   const totalPages = Math.ceil(totalCount / itemsPerPage);
   const [currentPage, setCurrentPage] = useState(current);
+  const router = useRouter();
+
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
-    onPageChange(page);
+    router.replace(`/${page}`);
   };
   return (
     <div className="flex justify-center items-center mt-4 gap-2">

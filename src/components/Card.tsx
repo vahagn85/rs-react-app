@@ -1,4 +1,4 @@
-// import { NavLink } from 'react-router';
+'use client';
 import Link from 'next/link';
 import { useAppStore } from '../store/appStore';
 import type { Result } from '../types/result.types';
