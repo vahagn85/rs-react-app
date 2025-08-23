@@ -19,11 +19,17 @@ function ResultForm({ title, updated, data, renderBtn }: ResultFormProps) {
           return (
             <li key={field.id}>
               <strong>{field.label}:</strong>{' '}
-              {field.id === 'terms'
-                ? '✔️ Accepted'
-                : field.id === 'picture'
-                  ? data[field.id][0].name
-                  : data[field.id]}
+              {field.id === 'terms' ? (
+                '✔️ Accepted'
+              ) : field.id === 'picture' ? (
+                <img
+                  className="w-full h-20 object-cover"
+                  src={data[field.id] as string}
+                  alt="picture"
+                />
+              ) : (
+                data[field.id]
+              )}
             </li>
           );
         })}

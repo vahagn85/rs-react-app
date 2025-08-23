@@ -7,6 +7,7 @@ import { validateData } from '../validation/validateData';
 import FormAutocomplete from './FormFields/FormAutocomplete';
 import { useFormStore } from '../store/formStore';
 import type { FormValues } from '../types/formTypes';
+import { fileToBase64 } from '../utils/fileToBase64';
 
 function UncontrolledForm({ onSuccess }: { onSuccess: () => void }) {
   const formRef = useRef({} as HTMLFormElement);
@@ -44,7 +45,11 @@ function UncontrolledForm({ onSuccess }: { onSuccess: () => void }) {
           }
         });
       } else {
-        addData(data as FormValues);
+        const newData = { ...result.data } as FormValues;
+        if (newData.picture instanceof File) {
+          newData.picture = await fileToBase64(newData.picture);
+        }
+        addData(newData);
         onSuccess();
       }
     } catch (error) {

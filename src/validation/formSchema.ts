@@ -52,16 +52,19 @@ export const formSchema: yup.ObjectSchema<FormValues> = yup.object().shape({
     .test('fileType', 'Incorrect file format (Only: jpeg,png)', (value) => {
       if (value instanceof FileList && value.length > 0) {
         return ['image/jpeg', 'image/png'].includes(value[0].type);
+      } else if (value instanceof File) {
+        return ['image/jpeg', 'image/png'].includes(value.type);
       }
       return false;
     })
     .test('fileSize', 'File size is too large (max:1MB)', (value) => {
       if (value instanceof FileList && value.length > 0) {
         return value[0].size <= 1 * 1024 * 1024;
+      } else if (value instanceof File) {
+        return value.size <= 1 * 1024 * 1024;
       }
       return false;
     }),
-
   country: yup
     .string()
     .required('Country is required')

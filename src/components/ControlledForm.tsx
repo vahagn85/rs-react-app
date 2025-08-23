@@ -9,6 +9,7 @@ import { formSchema } from '../validation/formSchema';
 import { useEffect } from 'react';
 import FormAutocomplete from './FormFields/FormAutocomplete';
 import { useFormStore } from '../store/formStore';
+import { fileToBase64 } from '../utils/fileToBase64';
 
 interface ControlledFormProps {
   onSuccess: () => void;
@@ -31,9 +32,16 @@ function ControlledForm({ onSuccess, onValidChange }: ControlledFormProps) {
     onValidChange(isValid);
   }, [isValid, onValidChange]);
 
-  const onSubmit = (data: FormValues) => {
-    addData(data);
-    onSuccess();
+  const onSubmit = async (data: FormValues) => {
+    try {
+      if (data.picture instanceof FileList) {
+        data.picture = await fileToBase64(data.picture[0]);
+      }
+      addData(data);
+      onSuccess();
+    } catch (error) {
+      void error;
+    }
   };
 
   return (
