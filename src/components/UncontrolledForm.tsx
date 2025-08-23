@@ -19,7 +19,11 @@ function UncontrolledForm({ onSuccess }: { onSuccess: () => void }) {
         .forEach((el) => el.remove());
 
       const formData = new FormData(formRef.current);
-      const data = Object.fromEntries(formData.entries());
+      const raw = Object.fromEntries(formData.entries());
+      const data = {
+        ...raw,
+        terms: formData.has('terms'),
+      };
 
       const result = await validateData(data);
 
