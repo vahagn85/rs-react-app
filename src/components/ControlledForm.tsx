@@ -62,7 +62,6 @@ function ControlledForm({ onSuccess, onValidChange }: ControlledFormProps) {
                     id="country"
                     register={register('country')}
                     error={errors.country}
-                    options={selectOptions.country.map((opt) => opt.label)}
                   />
                 ) : (
                   <FormSelect

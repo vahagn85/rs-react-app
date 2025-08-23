@@ -1,11 +1,11 @@
 import type { UseFormRegisterReturn, FieldError } from 'react-hook-form';
+import { useCountryStore } from '../../store/countryStore';
 
 interface FormAutocompleteProps {
   id: string;
   name?: string;
   register?: UseFormRegisterReturn;
   error?: FieldError;
-  options: string[];
 }
 
 function FormAutocomplete({
@@ -13,8 +13,8 @@ function FormAutocomplete({
   name,
   register,
   error,
-  options,
 }: FormAutocompleteProps) {
+  const countries = useCountryStore((state) => state.countries);
   return (
     <>
       <input
@@ -28,8 +28,8 @@ function FormAutocomplete({
       />
 
       <datalist id={`${id}-list`}>
-        {options.map((opt) => (
-          <option key={opt} value={opt} />
+        {countries.map((opt) => (
+          <option key={opt.code} value={opt.name} />
         ))}
       </datalist>
     </>

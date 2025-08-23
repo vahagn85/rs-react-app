@@ -24,8 +24,4 @@ export const selectOptions: Record<
     { value: 'male', label: 'Male' },
     { value: 'female', label: 'Female' },
   ],
-  country: [
-    { value: 'us', label: 'United States' },
-    { value: 'uk', label: 'United Kingdom' },
-  ],
 };

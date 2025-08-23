@@ -69,11 +69,7 @@ function UncontrolledForm({ onSuccess }: { onSuccess: () => void }) {
             {field.type === 'select' ? (
               <>
                 {field.id === 'country' ? (
-                  <FormAutocomplete
-                    id="country"
-                    name="country"
-                    options={selectOptions.country.map((opt) => opt.label)}
-                  />
+                  <FormAutocomplete id="country" name="country" />
                 ) : (
                   <FormSelect
                     id={field.id}
