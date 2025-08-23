@@ -8,6 +8,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { formSchema } from '../validation/formSchema';
 import { useEffect } from 'react';
 import FormAutocomplete from './FormFields/FormAutocomplete';
+import { useFormStore } from '../store/formStore';
 
 interface ControlledFormProps {
   onSuccess: () => void;
@@ -24,12 +25,14 @@ function ControlledForm({ onSuccess, onValidChange }: ControlledFormProps) {
     mode: 'onChange',
   });
 
+  const addData = useFormStore((store) => store.addDataRHF);
+
   useEffect(() => {
     onValidChange(isValid);
   }, [isValid, onValidChange]);
 
   const onSubmit = (data: FormValues) => {
-    console.log('Controlled form submitted', data);
+    addData(data);
     onSuccess();
   };
 

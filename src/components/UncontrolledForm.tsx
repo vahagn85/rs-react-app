@@ -5,9 +5,12 @@ import FormInput from './FormFields/FormInput';
 import FormSelect from './FormFields/FormSelect';
 import { validateData } from '../validation/validateData';
 import FormAutocomplete from './FormFields/FormAutocomplete';
+import { useFormStore } from '../store/formStore';
+import type { FormValues } from '../types/formTypes';
 
 function UncontrolledForm({ onSuccess }: { onSuccess: () => void }) {
   const formRef = useRef({} as HTMLFormElement);
+  const addData = useFormStore((store) => store.addDataUncontrolled);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
@@ -41,10 +44,11 @@ function UncontrolledForm({ onSuccess }: { onSuccess: () => void }) {
           }
         });
       } else {
+        addData(data as FormValues);
         onSuccess();
       }
     } catch (error) {
-      console.error('Error during form submission:', error);
+      void error;
     }
   };
   return (
