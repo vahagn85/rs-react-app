@@ -7,6 +7,7 @@ import FormSelect from './FormFields/FormSelect';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { formSchema } from '../validation/formSchema';
 import { useEffect } from 'react';
+import FormAutocomplete from './FormFields/FormAutocomplete';
 
 interface ControlledFormProps {
   onSuccess: () => void;
@@ -44,12 +45,23 @@ function ControlledForm({ onSuccess, onValidChange }: ControlledFormProps) {
             error={errors[field.id]}
           >
             {field.type === 'select' ? (
-              <FormSelect
-                id={field.id}
-                register={register(field.id)}
-                options={selectOptions[field.id] || []}
-                error={errors[field.id]}
-              />
+              <>
+                {field.id === 'country' ? (
+                  <FormAutocomplete
+                    id="country"
+                    register={register('country')}
+                    error={errors.country}
+                    options={selectOptions.country.map((opt) => opt.label)}
+                  />
+                ) : (
+                  <FormSelect
+                    id={field.id}
+                    register={register(field.id)}
+                    options={selectOptions[field.id] || []}
+                    error={errors[field.id]}
+                  />
+                )}
+              </>
             ) : (
               <FormInput
                 id={field.id}

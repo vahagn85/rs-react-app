@@ -4,6 +4,7 @@ import FormField from './FormFields/FormField';
 import FormInput from './FormFields/FormInput';
 import FormSelect from './FormFields/FormSelect';
 import { validateData } from '../validation/validateData';
+import FormAutocomplete from './FormFields/FormAutocomplete';
 
 function UncontrolledForm({ onSuccess }: { onSuccess: () => void }) {
   const formRef = useRef({} as HTMLFormElement);
@@ -57,11 +58,21 @@ function UncontrolledForm({ onSuccess }: { onSuccess: () => void }) {
             isRow={field.type === 'checkbox'}
           >
             {field.type === 'select' ? (
-              <FormSelect
-                id={field.id}
-                name={field.id}
-                options={selectOptions[field.id] || []}
-              />
+              <>
+                {field.id === 'country' ? (
+                  <FormAutocomplete
+                    id="country"
+                    name="country"
+                    options={selectOptions.country.map((opt) => opt.label)}
+                  />
+                ) : (
+                  <FormSelect
+                    id={field.id}
+                    name={field.id}
+                    options={selectOptions[field.id] || []}
+                  />
+                )}
+              </>
             ) : (
               <FormInput id={field.id} type={field.type} name={field.id} />
             )}

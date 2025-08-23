@@ -1,5 +1,6 @@
 import * as yup from 'yup';
 import type { FormValues } from '../types/formTypes';
+import { selectOptions } from '../utils/formFields';
 
 export const formSchema: yup.ObjectSchema<FormValues> = yup.object().shape({
   name: yup
@@ -61,5 +62,11 @@ export const formSchema: yup.ObjectSchema<FormValues> = yup.object().shape({
       return false;
     }),
 
-  country: yup.string().required('Country is required'),
+  country: yup
+    .string()
+    .required('Country is required')
+    .oneOf(
+      selectOptions.country.map((item) => item.label),
+      'Please select a valid country'
+    ),
 });
