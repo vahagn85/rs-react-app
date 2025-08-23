@@ -10,12 +10,12 @@ function App() {
   const [modalType, setModalType] = useState<
     'uncontrolled' | 'controlled' | null
   >(null);
+  const [isFormValid, setIsFormValid] = useState(false);
 
   const handlerModal = (type: 'uncontrolled' | 'controlled') => {
     setModalType(type);
     toggleModal();
   };
-
   return (
     <>
       <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
@@ -37,12 +37,16 @@ function App() {
             : 'Form - React Hook Form'
         }
         onClose={toggleModal}
+        isSubmitDisabled={modalType === 'controlled' && !isFormValid}
       >
         {modalType === 'uncontrolled' && (
           <UncontrolledForm onSuccess={toggleModal} />
         )}
         {modalType === 'controlled' && (
-          <ControlledForm onSuccess={toggleModal} />
+          <ControlledForm
+            onSuccess={toggleModal}
+            onValidChange={setIsFormValid}
+          />
         )}
       </Modal>
     </>

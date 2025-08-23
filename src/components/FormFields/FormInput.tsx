@@ -20,7 +20,7 @@ function FormInput({
       id={id}
       type={type}
       className={`form-control ${
-        error ? 'border-red-500 focus:ring-red-500' : ''
+        error ? '!border-red-500 !focus:ring-red-500' : ''
       }`}
       {...(register ?? { name })}
     />

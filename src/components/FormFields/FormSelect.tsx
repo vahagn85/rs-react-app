@@ -14,7 +14,7 @@ function FormSelect({ id, register, name, error, options }: FormSelectProps) {
       id={id}
       {...(register ?? { name })}
       className={`form-control ${
-        error ? 'border-red-500 focus:ring-red-500' : ''
+        error ? '!border-red-500 !focus:ring-red-500' : ''
       }`}
     >
       <option value="">Select an option</option>

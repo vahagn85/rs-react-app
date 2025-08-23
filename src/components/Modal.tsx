@@ -7,10 +7,17 @@ interface ModalProps {
   isOpen: boolean;
   title: string;
   onClose: () => void;
+  isSubmitDisabled?: boolean;
   children: ReactNode;
 }
 
-function Modal({ isOpen, title, onClose, children }: ModalProps) {
+function Modal({
+  isOpen,
+  title,
+  onClose,
+  isSubmitDisabled,
+  children,
+}: ModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (!isOpen) return;
@@ -84,6 +91,7 @@ function Modal({ isOpen, title, onClose, children }: ModalProps) {
             data-action="send"
             aria-label="Send"
             form="modal-form"
+            disabled={isSubmitDisabled}
           >
             Submit
           </Button>

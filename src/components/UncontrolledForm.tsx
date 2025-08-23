@@ -1,19 +1,49 @@
+import { useRef } from 'react';
 import { formFields, selectOptions } from '../utils/formFields';
 import FormField from './FormFields/FormField';
 import FormInput from './FormFields/FormInput';
 import FormSelect from './FormFields/FormSelect';
+import { validateData } from '../validation/validateData';
 
 function UncontrolledForm({ onSuccess }: { onSuccess: () => void }) {
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formdata = new FormData(e.currentTarget);
-    const data = Object.fromEntries(formdata.entries());
-    console.log(data);
-    console.log('Uncontrolled form submitted');
-    onSuccess();
+  const formRef = useRef({} as HTMLFormElement);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    try {
+      e.preventDefault();
+
+      if (!formRef.current) return;
+
+      formRef.current
+        .querySelectorAll('.error-msg')
+        .forEach((el) => el.remove());
+
+      const formData = new FormData(formRef.current);
+      const data = Object.fromEntries(formData.entries());
+
+      const result = await validateData(data);
+
+      if (!result.isValid && formRef.current) {
+        Object.entries(result.errors ?? {}).forEach(([field, message]) => {
+          const input = formRef.current?.querySelector<
+            HTMLInputElement | HTMLSelectElement
+          >(`[name="${field}"]`);
+          if (input) {
+            const span = document.createElement('span') as HTMLSpanElement;
+            span.className = 'error-msg absolute top-full text-red-500 text-xs';
+            span.textContent = message;
+            input.insertAdjacentElement('afterend', span);
+          }
+        });
+      } else {
+        onSuccess();
+      }
+    } catch (error) {
+      console.error('Error during form submission:', error);
+    }
   };
   return (
-    <form id="modal-form" onSubmit={handleSubmit}>
+    <form id="modal-form" onSubmit={handleSubmit} ref={formRef}>
       {formFields.map((field) => {
         return (
           <FormField
