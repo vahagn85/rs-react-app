@@ -58,6 +58,7 @@ function Modal({
         className="fixed inset-0 bg-black opacity-50 transition-opacity duration-300"
         onClick={onClose}
         aria-hidden={isOpen ? 'false' : 'true'}
+        data-testid="overlay"
       />
       <div
         className="relative bg-white rounded-lg shadow-xl w-full max-w-xl min-h-20 overflow-hidden transform transition-all duration-300 scale-95 hover:scale-100"

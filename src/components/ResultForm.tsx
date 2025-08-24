@@ -11,8 +11,10 @@ interface ResultFormProps {
 
 function ResultForm({ title, updated, data, renderBtn }: ResultFormProps) {
   const renderData = () => {
-    if (!data)
+    if (!data) {
       return <p className="text-center">No data. Please fill the form.</p>;
+    }
+
     return (
       <ul className="space-y-1">
         {formFields.map((field) => {
