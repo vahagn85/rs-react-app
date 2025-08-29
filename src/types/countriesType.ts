@@ -18,5 +18,15 @@ export interface Country {
   year: number;
   co2?: number;
   co2_per_capita?: number;
+  methane?: number;
+  oil_co2?: number;
+  temperature_change_from_co2?: number;
+  gas_co2?: number;
 }
 export type Countries = Country[];
+
+export type ExtraColumns =
+  | 'methane'
+  | 'oil_co2'
+  | 'temperature_change_from_co2'
+  | 'gas_co2';

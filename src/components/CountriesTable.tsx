@@ -1,4 +1,4 @@
-import type { Countries } from '../types/CountriesType';
+import type { Countries, ExtraColumns } from '../types/CountriesType';
 import CountryRow from './CountryRow';
 
 interface CountriesTableProps {
@@ -7,6 +7,7 @@ interface CountriesTableProps {
   sortOrder: string;
   setSortField: (f: string) => void;
   setSortOrder: (o: string) => void;
+  extraColumns: ExtraColumns[];
 }
 
 export default function CountriesTable({
@@ -15,6 +16,7 @@ export default function CountriesTable({
   sortOrder,
   setSortField,
   setSortOrder,
+  extraColumns,
 }: CountriesTableProps) {
   const handleSort = (field: string) => {
     if (sortField === field) {
@@ -46,11 +48,22 @@ export default function CountriesTable({
             <th className="px-4 py-3 border">Year</th>
             <th className="px-4 py-3 border">co2</th>
             <th className="px-4 py-3 border">co2 per capita</th>
+
+            {extraColumns.map((col) => (
+              <th key={col} className="px-4 py-3 border">
+                {col}
+              </th>
+            ))}
           </tr>
         </thead>
         <tbody>
           {countries.map((c, i) => (
-            <CountryRow key={`${c.isoCode}-${c.year}`} country={c} index={i} />
+            <CountryRow
+              key={`${c.isoCode}-${c.year}`}
+              country={c}
+              index={i}
+              extraColumns={extraColumns}
+            />
           ))}
         </tbody>
       </table>
