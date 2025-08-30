@@ -1,4 +1,4 @@
-import type { CO2Data } from '../types/CountriesType';
+import type { CO2Data } from '../types/countriesType';
 
 let dataCache: CO2Data | null = null;
 let promise: Promise<CO2Data> | null = null;
@@ -9,7 +9,9 @@ export function fetchData() {
   }
 
   if (!promise) {
-    promise = fetch('/owid-co2-data.json')
+    promise = fetch(
+      'https://raw.githubusercontent.com/vahagn85/co2-data/main/owid-co2-data.json'
+    )
       .then((res) => {
         if (!res.ok) {
           throw new Error('Something went wrong');
