@@ -4,7 +4,6 @@ import Controls from './Controls';
 import InfoBar from './InfoBar';
 import CountriesTable from './CountriesTable';
 import type { Countries, ExtraColumns } from '../types/CountriesType';
-import { extraFields } from '../data/fields';
 
 function CountriesWrapper() {
   const data = fetchData();
@@ -13,7 +12,6 @@ function CountriesWrapper() {
   const [sortField, setSortField] = useState('name');
   const [sortOrder, setSortOrder] = useState('asc');
   const [extraColumns, setExtraColumns] = useState<ExtraColumns[]>([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const availableYears = () => {
     const years = new Set<number>();
@@ -106,12 +104,6 @@ function CountriesWrapper() {
         sortField={sortField}
         sortOrder={sortOrder}
       />
-      <button
-        onClick={() => setIsModalOpen(true)}
-        className="mb-4 px-4 py-2 bg-blue-500 text-white rounded shadow"
-      >
-        Change Columns
-      </button>
       <CountriesTable
         countries={filteredAndSortedCountries() as unknown as Countries}
         sortField={sortField}
@@ -119,47 +111,8 @@ function CountriesWrapper() {
         setSortField={setSortField}
         setSortOrder={setSortOrder}
         extraColumns={extraColumns}
+        setExtraColumns={setExtraColumns}
       />
-
-      {isModalOpen && (
-        <div className="fixed inset-0 bg-black opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-80">
-            <h2 className="text-lg font-semibold mb-4">Choose extra columns</h2>
-            <div className="space-y-2">
-              {(extraFields as ExtraColumns[]).map((field) => (
-                <label key={field} className="flex items-center space-x-2">
-                  <input
-                    type="checkbox"
-                    checked={extraColumns.includes(field)}
-                    onChange={() =>
-                      setExtraColumns((prev) =>
-                        prev.includes(field)
-                          ? prev.filter((f) => f !== field)
-                          : [...prev, field]
-                      )
-                    }
-                  />
-                  <span>{field}</span>
-                </label>
-              ))}
-            </div>
-            <div className="mt-4 flex justify-end space-x-2">
-              <button
-                className="px-3 py-1 border rounded"
-                onClick={() => setIsModalOpen(false)}
-              >
-                Cancel
-              </button>
-              <button
-                className="px-3 py-1 bg-blue-500 text-white rounded"
-                onClick={() => setIsModalOpen(false)}
-              >
-                Apply
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
