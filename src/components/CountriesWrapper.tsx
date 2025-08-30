@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { fetchData } from '../data/fetchData';
 import Controls from './Controls';
 import InfoBar from './InfoBar';
@@ -12,6 +12,7 @@ function CountriesWrapper() {
   const [sortField, setSortField] = useState('name');
   const [sortOrder, setSortOrder] = useState('asc');
   const [extraColumns, setExtraColumns] = useState<ExtraColumns[]>([]);
+  const [previousYear, setPreviousYear] = useState(2023);
 
   const availableYears = () => {
     const years = new Set<number>();
@@ -83,6 +84,19 @@ function CountriesWrapper() {
             : 0;
     });
   };
+  const handleYearChange = (newYear: number) => {
+    setPreviousYear(selectedYear);
+    setSelectedYear(newYear);
+  };
+  const [isHighlight, setIsHighlight] = useState(false);
+
+  useEffect(() => {
+    if (previousYear !== selectedYear) {
+      setIsHighlight(true);
+      const timer = setTimeout(() => setIsHighlight(false), 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [selectedYear, previousYear]);
   return (
     <div className="p-6 max-w-7xl mx-auto">
       <h1 className="text-2xl font-bold mb-6 text-gray-800">
@@ -92,7 +106,7 @@ function CountriesWrapper() {
       <Controls
         years={availableYears()}
         selectedYear={selectedYear}
-        setSelectedYear={setSelectedYear}
+        setSelectedYear={handleYearChange}
         searchValue={searchValue}
         setSearchValue={setSearchValue}
       />
@@ -104,6 +118,7 @@ function CountriesWrapper() {
         sortField={sortField}
         sortOrder={sortOrder}
       />
+
       <CountriesTable
         countries={filteredAndSortedCountries() as unknown as Countries}
         sortField={sortField}
@@ -112,6 +127,7 @@ function CountriesWrapper() {
         setSortOrder={setSortOrder}
         extraColumns={extraColumns}
         setExtraColumns={setExtraColumns}
+        isHighlight={isHighlight}
       />
     </div>
   );

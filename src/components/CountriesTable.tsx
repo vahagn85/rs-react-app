@@ -11,6 +11,7 @@ interface CountriesTableProps {
   setSortOrder: (o: string) => void;
   extraColumns: ExtraColumns[];
   setExtraColumns: Dispatch<SetStateAction<ExtraColumns[]>>;
+  isHighlight: boolean;
 }
 
 export default function CountriesTable({
@@ -21,6 +22,7 @@ export default function CountriesTable({
   setSortOrder,
   extraColumns,
   setExtraColumns,
+  isHighlight,
 }: CountriesTableProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const handleSort = (field: string) => {
@@ -78,6 +80,7 @@ export default function CountriesTable({
                 country={c}
                 index={i}
                 extraColumns={extraColumns}
+                isHighlight={isHighlight}
               />
             ))}
           </tbody>
