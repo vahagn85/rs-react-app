@@ -1,69 +1,79 @@
-# React + TypeScript + Vite
+# Task: React Performance
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+CO2 emissions data by countries
 
-Currently, two official plugins are available:
+## Performance Profiling
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Initial profiling was performed using **React DevTools Profiler**.
 
-## Expanding the ESLint configuration
+- **Tested interactions:**
+  - Sorting a column
+  - Searching for a country
+  - Selecting a year
+  - Adding/removing columns
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Before optimization
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### - Sorting a column:
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+- **Commit Duration: 8.6s**
+- **Render Duration: 485ms**
+- **Interactions:** Not recorded (Profiler did not capture explicit interactions)
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
-```
+### - Screenshots:
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+#### Flame Graph for sorting
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x';
-import reactDom from 'eslint-plugin-react-dom';
+![Flame Graph](public/img/before/flame-sort.jpg)
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
-```
+#### Ranked Chart for sorting
+
+![Ranked Chart](public/img/before/ranked-sort.jpg)
+
+### - Searching for a country:
+
+- **Commit Duration: 4.8s**
+- **Render Duration: 477.5ms**
+- **Interactions:** Not recorded (Profiler did not capture explicit interactions)
+
+### - Screenshots:
+
+#### Flame Graph for search
+
+![Flame Graph](public/img/before/flame-search.jpg)
+
+#### Ranked Chart for search
+
+![Ranked Chart](public/img/before/ranked-search.jpg)
+
+### - Selecting a year:
+
+- **Commit Duration: 3.3s**
+- **Render Duration: 586.5ms**
+- **Interactions:** Not recorded (Profiler did not capture explicit interactions)
+
+### - Screenshots:
+
+#### Flame Graph for year
+
+![Flame Graph](public/img/before/flame-year.jpg)
+
+#### Ranked Chart for year
+
+![Ranked Chart](public/img/before/ranked-year.jpg)
+
+### - Adding/removing columns:
+
+- **Commit Duration: 2s**
+- **Render Duration: 389.4ms**
+- **Interactions:** Not recorded (Profiler did not capture explicit interactions)
+
+### - Screenshots:
+
+#### Flame Graph for columns
+
+![Flame Graph](public/img/before/flame-columns.jpg)
+
+#### Ranked Chart for columns
+
+![Ranked Chart](public/img/before/ranked-columns.jpg)
