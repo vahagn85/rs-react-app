@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { fetchData } from '../data/fetchData';
 import Controls from './Controls';
 import InfoBar from './InfoBar';
 import CountriesTable from './CountriesTable';
-import type { Countries, ExtraColumns } from '../types/CountriesType';
+import type { Countries, ExtraColumns } from '../types/countriesType';
 
 function CountriesWrapper() {
   const data = fetchData();
@@ -14,7 +14,7 @@ function CountriesWrapper() {
   const [extraColumns, setExtraColumns] = useState<ExtraColumns[]>([]);
   const [previousYear, setPreviousYear] = useState(2023);
 
-  const availableYears = () => {
+  const availableYears = useMemo(() => {
     const years = new Set<number>();
     Object.values(data).forEach((countryData) => {
       countryData.data.forEach((item) => {
@@ -22,9 +22,9 @@ function CountriesWrapper() {
       });
     });
     return Array.from(years).sort((a, b) => b - a);
-  };
+  }, [data]);
 
-  const countriesData = () => {
+  const countriesData = useMemo(() => {
     return Object.entries(data)
       .filter(([, countryDa]) => countryDa.iso_code)
       .map(([countryName, countryData]) => {
@@ -46,13 +46,13 @@ function CountriesWrapper() {
           gas_co2: yearData?.gas_co2 || null,
         };
       });
-  };
+  }, [data, selectedYear]);
 
-  const filteredAndSortedCountries = () => {
-    let filtered = countriesData();
+  const filteredAndSortedCountries = useMemo(() => {
+    let filtered = countriesData;
     if (searchValue.trim()) {
       const term = searchValue.toLowerCase().trim();
-      filtered = countriesData().filter(
+      filtered = countriesData.filter(
         (c) =>
           c.name.toLowerCase().includes(term) ||
           (c.isoCode && c.isoCode.toLowerCase().includes(term))
@@ -83,7 +83,7 @@ function CountriesWrapper() {
             ? -1
             : 0;
     });
-  };
+  }, [countriesData, searchValue, sortField, sortOrder]);
   const handleYearChange = (newYear: number) => {
     setPreviousYear(selectedYear);
     setSelectedYear(newYear);
@@ -104,7 +104,7 @@ function CountriesWrapper() {
       </h1>
 
       <Controls
-        years={availableYears()}
+        years={availableYears}
         selectedYear={selectedYear}
         setSelectedYear={handleYearChange}
         searchValue={searchValue}
@@ -112,15 +112,15 @@ function CountriesWrapper() {
       />
 
       <InfoBar
-        total={countriesData().length}
-        found={filteredAndSortedCountries().length}
+        total={countriesData.length}
+        found={filteredAndSortedCountries.length}
         year={selectedYear}
         sortField={sortField}
         sortOrder={sortOrder}
       />
 
       <CountriesTable
-        countries={filteredAndSortedCountries() as unknown as Countries}
+        countries={filteredAndSortedCountries as unknown as Countries}
         sortField={sortField}
         sortOrder={sortOrder}
         setSortField={setSortField}
