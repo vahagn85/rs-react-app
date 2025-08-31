@@ -77,3 +77,69 @@ Initial profiling was performed using **React DevTools Profiler**.
 #### Ranked Chart for columns
 
 ![Ranked Chart](public/img/before/ranked-columns.jpg)
+
+## After optimization
+
+### - Sorting a column:
+
+- **Commit Duration:2.2s**
+- **Render Duration: 22.6ms**
+- **Interactions:** Not recorded (Profiler did not capture explicit interactions)
+
+### - Screenshots:
+
+#### Flame Graph for sorting
+
+![Flame Graph sorting](public/img/after/flame-sort.jpg)
+
+#### Ranked Chart for sorting
+
+![Ranked Chart sorting](public/img/after/ranked-sort.jpg)
+
+### - Searching for a country:
+
+- **Commit Duration: 1.9s**
+- **Render Duration: 76.3ms**
+- **Interactions:** Not recorded (Profiler did not capture explicit interactions)
+
+### - Screenshots:
+
+#### Flame Graph for search
+
+![Flame Graph search](public/img/after/flame-search.jpg)
+
+#### Ranked Chart for search
+
+![Ranked Chart search](public/img/after/ranked-search.jpg)
+
+### - Selecting a year:
+
+- **Commit Duration: 2.5s**
+- **Render Duration: 329.9ms**
+- **Interactions:** Not recorded (Profiler did not capture explicit interactions)
+
+### - Screenshots:
+
+#### Flame Graph for year
+
+![Flame Graph year](public/img/after/flame-year.jpg)
+
+#### Ranked Chart for year
+
+![Ranked Chart year](public/img/after/ranked-year.jpg)
+
+### - Adding/removing columns:
+
+- **Commit Duration: 1.1s**
+- **Render Duration: 29.4ms**
+- **Interactions:** Not recorded (Profiler did not capture explicit interactions)
+
+### - Screenshots:
+
+#### Flame Graph for columns
+
+![Flame Graph columns](public/img/after/flame-columns.jpg)
+
+#### Ranked Chart for columns
+
+![Ranked Chart columns](public/img/after/ranked-columns.jpg)
