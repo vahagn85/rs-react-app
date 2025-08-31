@@ -1,5 +1,5 @@
-import { useState, type Dispatch, type SetStateAction } from 'react';
-import type { Countries, ExtraColumns } from '../types/CountriesType';
+import { useState } from 'react';
+import type { Countries, ExtraColumns } from '../types/countriesType';
 import CountryRow from './CountryRow';
 import ExtraColumnsModal from './ExtraColumnsModal';
 
@@ -9,8 +9,6 @@ interface CountriesTableProps {
   sortOrder: string;
   setSortField: (f: string) => void;
   setSortOrder: (o: string) => void;
-  extraColumns: ExtraColumns[];
-  setExtraColumns: Dispatch<SetStateAction<ExtraColumns[]>>;
   isHighlight: boolean;
 }
 
@@ -20,11 +18,11 @@ export default function CountriesTable({
   sortOrder,
   setSortField,
   setSortOrder,
-  extraColumns,
-  setExtraColumns,
   isHighlight,
 }: CountriesTableProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [extraColumns, setExtraColumns] = useState<ExtraColumns[]>([]);
+
   const handleSort = (field: string) => {
     if (sortField === field) {
       setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
@@ -33,6 +31,7 @@ export default function CountriesTable({
       setSortOrder('desc');
     }
   };
+
   return (
     <>
       <div className="flex justify-end mb-4">

@@ -1,3 +1,4 @@
+import { memo } from 'react';
 interface ControlsProps {
   years: number[];
   selectedYear: number;
@@ -41,4 +42,4 @@ function Controls({
     </div>
   );
 }
-export default Controls;
+export default memo(Controls);

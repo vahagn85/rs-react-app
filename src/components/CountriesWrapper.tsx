@@ -1,9 +1,9 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { fetchData } from '../data/fetchData';
 import Controls from './Controls';
 import InfoBar from './InfoBar';
 import CountriesTable from './CountriesTable';
-import type { Countries, ExtraColumns } from '../types/countriesType';
+import type { Countries } from '../types/countriesType';
 
 function CountriesWrapper() {
   const data = fetchData();
@@ -11,8 +11,8 @@ function CountriesWrapper() {
   const [selectedYear, setSelectedYear] = useState(2023);
   const [sortField, setSortField] = useState('name');
   const [sortOrder, setSortOrder] = useState('asc');
-  const [extraColumns, setExtraColumns] = useState<ExtraColumns[]>([]);
   const [previousYear, setPreviousYear] = useState(2023);
+  const [isHighlight, setIsHighlight] = useState(false);
 
   const availableYears = useMemo(() => {
     const years = new Set<number>();
@@ -38,7 +38,6 @@ function CountriesWrapper() {
           co2: yearData?.co2 || null,
           co2_per_capita: yearData?.co2_per_capita || null,
           year: selectedYear,
-          hasData: !!yearData,
           methane: yearData?.methane || null,
           oil_co2: yearData?.oil_co2 || null,
           temperature_change_from_co2:
@@ -84,11 +83,14 @@ function CountriesWrapper() {
             : 0;
     });
   }, [countriesData, searchValue, sortField, sortOrder]);
-  const handleYearChange = (newYear: number) => {
-    setPreviousYear(selectedYear);
-    setSelectedYear(newYear);
-  };
-  const [isHighlight, setIsHighlight] = useState(false);
+
+  const handleYearChange = useCallback(
+    (newYear: number) => {
+      setPreviousYear(selectedYear);
+      setSelectedYear(newYear);
+    },
+    [selectedYear]
+  );
 
   useEffect(() => {
     if (previousYear !== selectedYear) {
@@ -125,8 +127,6 @@ function CountriesWrapper() {
         sortOrder={sortOrder}
         setSortField={setSortField}
         setSortOrder={setSortOrder}
-        extraColumns={extraColumns}
-        setExtraColumns={setExtraColumns}
         isHighlight={isHighlight}
       />
     </div>

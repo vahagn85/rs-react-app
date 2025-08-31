@@ -1,4 +1,5 @@
-import type { Country, ExtraColumns } from '../types/CountriesType';
+import { memo } from 'react';
+import type { Country, ExtraColumns } from '../types/countriesType';
 
 interface CountryRowProps {
   country: Country;
@@ -7,7 +8,7 @@ interface CountryRowProps {
   isHighlight: boolean;
 }
 
-export default function CountryRow({
+function CountryRow({
   country,
   index,
   extraColumns,
@@ -41,3 +42,15 @@ export default function CountryRow({
     </tr>
   );
 }
+
+export default memo(CountryRow, (prev, next) => {
+  return (
+    prev.country.isoCode === next.country.isoCode &&
+    prev.country.year === next.country.year &&
+    prev.country.population === next.country.population &&
+    prev.country.co2 === next.country.co2 &&
+    prev.country.co2_per_capita === next.country.co2_per_capita &&
+    prev.extraColumns.join(',') === next.extraColumns.join(',') &&
+    prev.isHighlight === next.isHighlight
+  );
+});
