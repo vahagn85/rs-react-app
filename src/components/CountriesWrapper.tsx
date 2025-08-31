@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { fetchData } from '../data/fetchData';
 import Controls from './Controls';
 import InfoBar from './InfoBar';
@@ -11,8 +11,8 @@ function CountriesWrapper() {
   const [selectedYear, setSelectedYear] = useState(2023);
   const [sortField, setSortField] = useState('name');
   const [sortOrder, setSortOrder] = useState('asc');
-  const [previousYear, setPreviousYear] = useState(2023);
   const [isHighlight, setIsHighlight] = useState(false);
+  const timerRef = useRef<number | null>(null);
 
   const availableYears = useMemo(() => {
     const years = new Set<number>();
@@ -86,19 +86,23 @@ function CountriesWrapper() {
 
   const handleYearChange = useCallback(
     (newYear: number) => {
-      setPreviousYear(selectedYear);
-      setSelectedYear(newYear);
+      if (newYear !== selectedYear) {
+        setIsHighlight(true);
+        setSelectedYear(newYear);
+
+        if (timerRef.current) {
+          clearTimeout(timerRef.current);
+        }
+
+        timerRef.current = setTimeout(() => {
+          setIsHighlight(false);
+          timerRef.current = null;
+        }, 2000);
+      }
     },
     [selectedYear]
   );
 
-  useEffect(() => {
-    if (previousYear !== selectedYear) {
-      setIsHighlight(true);
-      const timer = setTimeout(() => setIsHighlight(false), 2000);
-      return () => clearTimeout(timer);
-    }
-  }, [selectedYear, previousYear]);
   return (
     <div className="p-6 max-w-7xl mx-auto">
       <h1 className="text-2xl font-bold mb-6 text-gray-800">
